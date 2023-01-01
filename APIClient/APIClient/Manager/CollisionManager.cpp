@@ -29,13 +29,34 @@ void CollisionManager::CreateCollision(OUT RectCollision*& Collision, IN Collisi
 
 void CollisionManager::Update()
 {
-	for (CrashRelation crash : CrashSettings)
-	{
-		std::vector<RectCollision*> attacker = Collisions[crash.Attacker];
-		std::vector<RectCollision*> victim = Collisions[crash.Victim];
+	std::vector<RectCollision*> attackers;
+	std::vector<RectCollision*> victims;
 
-		CollisionCheck(attacker, victim);
+	for (std::pair<CollisionChannel::Type, std::vector<CollisionChannel::Type>> set : CrashSettings)
+	{
+		attackers = Collisions[set.first];
+
+		for (CollisionChannel::Type type : set.second)
+		{
+			if(victims.size() == 0)
+				victims = Collisions[type];
+			
+			for (RectCollision* collision : Collisions[type])
+			{
+				victims.push_back(collision);
+			}
+		}
+
+		CollisionCheck(attackers, victims);
 	}
+
+	//for (CrashRelation crash : CrashSettings)
+	//{
+	//	std::vector<RectCollision*> attacker = Collisions[crash.Attacker];
+	//	std::vector<RectCollision*> victim = Collisions[crash.Victim];
+	//
+	//	CollisionCheck(attacker, victim);
+	//}
 }
 
 void CollisionManager::Add(RectCollision* Collision, CollisionChannel::Type Channel)
@@ -50,11 +71,12 @@ void CollisionManager::Add(RectCollision* Collision, CollisionChannel::Type Chan
 
 void CollisionManager::CrashChannelSetting(const CollisionChannel::Type AtcCh, const CollisionChannel::Type VicCh)
 {
-	CrashRelation set;
-	set.Attacker = AtcCh;
-	set.Victim = VicCh;
+	//CrashRelation set;
+	//set.Attacker = AtcCh;
+	//set.Victim = VicCh;
 
-	CrashSettings.push_back(set);
+	//CrashSettings.push_back(set);
+	CrashSettings[AtcCh].push_back(VicCh);
 }
 
 void CollisionManager::ChangeCollisionChannel(RectCollision* Collision, CollisionChannel::Type ChangeCh)

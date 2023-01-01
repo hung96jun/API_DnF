@@ -40,6 +40,11 @@ void Animation::SetFrame(const WSTR& FileName, const int& Key, const Vector2& St
 	sprite->SetCutFrame(Key, Start, End, Loop, Speed);
 }
 
+void Animation::AddFrameFunction(const WSTR& FileName, const int& Key, const int& Frame, std::function<void()> Func)
+{
+	Animations[FileName]->SetFrameFunction(Key, Frame, Func);
+}
+
 void Animation::SetEndFunction(const WSTR& FileName, const int& Key, std::function<void()> Func)
 {
 	Animations[FileName]->SetEndFunction(Key, Func);
@@ -96,6 +101,7 @@ void Animation::Update()
 	if (CurTime > CurAnim->GetCutInfo(SelectKey).Speed)
 	{
 		++CurFrame.x;
+		++CountFrame;
 	
 		if (CurFrame.x == CurAnim->GetMaxIndex().x)
 		{
@@ -109,6 +115,11 @@ void Animation::Update()
 
 			else
 				++CurFrame.y;
+		}
+
+		if (CurAnim->GetCutInfo(SelectKey).FrameFunction.size() > 0)
+		{
+			CurAnim->CallFrameFunction(SelectKey, CountFrame);
 		}
 
 		CurTime = 0.0f;
@@ -155,6 +166,7 @@ void Animation::ResetFrame()
 	case LoopType::Loop:
 	{
 		CurFrame = CurAnim->GetCutInfo(SelectKey).Start;
+		CountFrame = 0;
 	}
 		break;
 	//case LoopType::Delay:
@@ -170,6 +182,7 @@ void Animation::ResetFrame()
 			CurAnim->GetCutInfo(SelectKey).EndFunction();
 
 		bPlay = false;
+		CountFrame = 0;
 	}
 		break;
 	default:

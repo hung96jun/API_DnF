@@ -21,6 +21,9 @@ TestScene::TestScene()
 	hBitmap = (HBITMAP)LoadImage(hInst, str.c_str(), IMAGE_BITMAP, 303, 243, LR_LOADFROMFILE);
 	SelectObject(hMemdc, hBitmap);
 	ReleaseDC(hWnd, hdc);
+
+	CollisionManager::Get()->CrashChannelSetting(CollisionChannel::Channel3, CollisionChannel::Channel1);
+	CollisionManager::Get()->CrashChannelSetting(CollisionChannel::Channel3, CollisionChannel::Channel2);
 }
 
 TestScene::~TestScene()

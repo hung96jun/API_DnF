@@ -15,6 +15,11 @@
 //	this->bHidden = Other.bHidden;
 //}
 
+/**
+* MaxSize로 스프라이트 이미지의 가로 세로 최대 갯수
+* MaxIndex로 스프라이트 이미지의 총 갯수
+* 두개를 따로 받아와야 할것같다.
+*/
 SpriteInfo::SpriteInfo(const std::wstring& Path, const Vector2& Size, const Vector2& Index, const Vector2& Offset, COLORREF Alpha)
 	:Path(Path), MaxIndex(Index), Offset(Offset), OriginSize(Size), Alpha(Alpha)
 {

@@ -15,6 +15,7 @@ public:
 	*/
 	void Add(const WSTR& FileName, SpriteInfo Sprite);
 	void SetFrame(const WSTR& FileName, const int& Key, const Vector2& Start, const Vector2& End, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 0.1f);
+	void AddFrameFunction(const WSTR& FileName, const int& Key, const int& Frame, std::function<void()> Func);
 	void SetEndFunction(const WSTR& FileName, const int& Key, std::function<void()> Func);
 	void Remove(const WSTR& FileName);
 	void Destroy();
@@ -40,8 +41,7 @@ private:
 	
 	int CurIndex = 0;
 	Vector2 CurFrame = {};
-	// x is Start, y is End
-	//Vector2 SelectFrame = {};
+	int CountFrame = 0;
 	float CurTime = 0.0f;
 
 	SpriteInfo* CurAnim = nullptr;

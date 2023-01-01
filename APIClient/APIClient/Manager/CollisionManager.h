@@ -6,11 +6,11 @@ class Collision;
 class RectCollision;
 class CircleCollision;
 
-struct CrashRelation
-{
-	CollisionChannel::Type Attacker;
-	CollisionChannel::Type Victim;
-};
+//struct CrashRelation
+//{
+//	CollisionChannel::Type Attacker;
+//	CollisionChannel::Type Victim;
+//};
 
 class CollisionManager : public Singleton<CollisionManager>
 {
@@ -39,6 +39,7 @@ private:
 private:
 	int Index = -1;
 	
-	std::vector<CrashRelation> CrashSettings;
+	//std::vector<CrashRelation> CrashSettings;
+	std::map<CollisionChannel::Type, std::vector<CollisionChannel::Type>> CrashSettings;
 	std::map<CollisionChannel::Type, std::vector<RectCollision*>> Collisions;
 };

@@ -22,7 +22,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	Key = new TestKeyboard();
+	Key = new Keyboard();
 
 	Location = Vector2(WIN_CENTER_X, WIN_CENTER_Y);
 
@@ -78,6 +78,7 @@ void Player::GetGravity()
 	if (Location.y >= TempLocation.y)
 	{
 		bJump = false;
+		IsChangeState = true;
 		Velocity.y = 0.0f;
 		CurState = Idle;
 	}
@@ -86,6 +87,8 @@ void Player::GetGravity()
 #pragma region Input Function
 void Player::MoveInput()
 {
+	if (IsMove == false) return;
+
 	Location += Velocity * DELTA_TIME;
 	if(bJump == false)
 		Velocity = {0, 0};
@@ -95,54 +98,56 @@ void Player::MoveInput()
 #pragma region Bind key function
 void Player::MoveLeft()
 {
-	if (CurState != Jump)
-		CurState = Move;
-
 	if (Velocity.x != 0)
 		Velocity.x = 0;
 	else if (Location.x > SIZE.x * 0.5f)
 		Velocity.x = -Speed * AccelMagnifi;
+
+	if (IsChangeState == false) return;
+	CurState = Move;
 }
 
 void Player::MoveRight()
 {
-	if (CurState != Jump)
-		CurState = Move;
-
 	if (Velocity.x != 0)
 		Velocity.x = 0;
 	else if (Location.x < WIN_WIDTH - SIZE.x * 0.5f)
 		Velocity.x = Speed * AccelMagnifi;
+
+	if (IsChangeState == false) return;
+	CurState = Move;
 }
 
 void Player::MoveUp()
 {
-	if (CurState != Jump)
-		CurState = Move;
-
 	if (bJump == true) return;
 
 	if (Velocity.y != 0)
 		Velocity.y = 0;
 	else if (Location.y > SIZE.y * 0.5f)
 		Velocity.y = -Speed * AccelMagnifi;
+
+	if (IsChangeState == false) return;
+	CurState = Move;
 }
 
 void Player::MoveDown()
 {
-	if (CurState != Jump)
-		CurState = Move;
-
 	if (bJump == true) return;
 
 	if (Velocity.y != 0)
 		Velocity.y = 0;
 	else if (Location.y < WIN_HEIGHT - SIZE.x * 0.5f)
 		Velocity.y = Speed * AccelMagnifi;
+
+	if (IsChangeState == false) return;
+	CurState = Move;
 }
 
 void Player::ReleaseMoveHorizontal()
 {
+	if (IsChangeState == false) return;
+
 	Velocity.x = 0;
 
 	if (CurState == Jump) return;
@@ -151,6 +156,8 @@ void Player::ReleaseMoveHorizontal()
 
 void Player::ReleaseMoveVertiacal()
 {
+	if (IsChangeState == false) return;
+
 	Velocity.y = 0;
 
 	if (CurState == Jump) return;
@@ -159,7 +166,28 @@ void Player::ReleaseMoveVertiacal()
 
 void Player::OnAttacking()
 {
-	CurState = Attack;
+	if (IsChangeState == false) return;
+	if (IsAttack == true) return;
+
+	//if(CurState != Attack1)
+	//	CurState = Attack1;
+	
+	/// 공격중이 아닐 경우
+	if (CurState < FIRST_ATTACK)
+	{
+		CurState = Attack1;
+	}
+
+	else if (CurState >= FIRST_ATTACK || CurState < LAST_ATTACK)
+	{
+		int temp = static_cast<int>(CurState);
+		++temp;
+		CurState = static_cast<CharacterState>(temp);
+	}
+
+	IsChangeState = false;
+	IsMove = false;
+	IsAttack = true;
 }
 
 void Player::OnSmashing()
@@ -169,7 +197,10 @@ void Player::OnSmashing()
 void Player::OnJump()
 {
 	if (bJump == true) return;
+	if (IsChangeState == false) return;
+	if (IsMove == false) return;
 
+	IsChangeState = false;
 	CurState = Jump;
 	
 	if(bJump == false)
@@ -183,9 +214,19 @@ void Player::OnJump()
 void Player::EndAttacking()
 {
 	CurState = Idle;
+	IsMove = true;
+	IsChangeState = true;
+	IsAttack = false;
 }
-
 #pragma endregion
+
+void Player::SaveAttacking()
+{
+	IsAttack = false;
+	IsChangeState = true;
+	
+	OnAttacking();
+}
 
 void Player::OnBegin(RectCollision* Other)
 {
@@ -219,8 +260,18 @@ void Player::AnimStateSetting()
 	Anim->SetFrame(L"Movement", CharacterState::Jump, Vector2(0, 5), Vector2(5, 5), LoopType::Stop, 0.19f);
 	//Anim->SetEndFunction(L"Movement", CharacterState::Jump, bind(&Player::EndJump, this));
 
-	Anim->SetFrame(L"NormalAttack", CharacterState::Attack, Vector2(0, 0), Vector2(2, 1), LoopType::Stop);
-	Anim->SetEndFunction(L"NormalAttack", CharacterState::Attack, bind(&Player::EndAttacking, this));
+	/**
+	* 현재 프레임값을 받아서 바인딩 함수를 호출하는 시스템을 만들었지만, 프레임이 튈 경우 호출이 안되는 문제가 발생
+	* 
+	*/
+	Anim->SetFrame(L"NormalAttack", CharacterState::Attack1, Vector2(0, 0), Vector2(2, 1), LoopType::Stop);
+	Anim->SetEndFunction(L"NormalAttack", CharacterState::Attack1, bind(&Player::EndAttacking, this));
+	Anim->AddFrameFunction(L"NormalAttack", CharacterState::Attack1, 10, bind(&Player::SaveAttacking, this));
+
+	Anim->SetFrame(L"NormalAttack", CharacterState::Attack2, Vector2(3, 2), Vector2(2, 3), LoopType::Stop);
+	Anim->SetEndFunction(L"NormalAttack", CharacterState::Attack2, bind(&Player::EndAttacking, this));
+	//Anim->SetFrame(L"NormalAttack", CharacterState::Attack2, Vector2(0, 0), Vector2(2, 1), LoopType::Stop);
+	//Anim->SetEndFunction(L"NormalAttack", CharacterState::Attack2, bind(&Player::EndAttacking, this));
 }
 
 void Player::KeyboardSetting()

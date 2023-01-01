@@ -3,68 +3,78 @@
 
 Keyboard::Keyboard()
 {
-	// default setting, Test virsion
-	pair<KeyValue::Type, int> keyPair;
+	pair<InputType::Type, std::vector<KeyInfo>> keyPair;
+	KeyInfo info;
+
 	{
-		keyPair.first = KeyValue::Attack;
-		keyPair.second = 'X';
+		keyPair.first = InputType::Down;
+		std::vector<KeyInfo> infos;
+		info = { KeyValue::Attack, 'X' };
+		infos.push_back(info);
+		info = { KeyValue::Smash, 'Z' };
+		infos.push_back(info);
+		info = { KeyValue::Jump, 'C' };
+		infos.push_back(info);
+		info = { KeyValue::Skill1, 'A' };
+		infos.push_back(info);
+		info = { KeyValue::Skill2, 'S' };
+		infos.push_back(info);
+		info = { KeyValue::Skill3, 'D' };
+		infos.push_back(info);
+		info = { KeyValue::Skill4, 'F' };
+		infos.push_back(info);
+		info = { KeyValue::Skill5, 'G' };
+		infos.push_back(info);
+		info = { KeyValue::Skill6, 'H' };
+		infos.push_back(info);
+		info = { KeyValue::Item1, '1' };
+		infos.push_back(info);
+		info = { KeyValue::Item2, '2' };
+		infos.push_back(info);
+		info = { KeyValue::Item3, '3' };
+		infos.push_back(info);
+		info = { KeyValue::Item4, '4' };
+		infos.push_back(info);
+		info = { KeyValue::Item5, '5' };
+		infos.push_back(info);
+		info = { KeyValue::Itme6, '6' };
+		infos.push_back(info);
+		info = { KeyValue::Escape, VK_ESCAPE };
+		infos.push_back(info);
+
+		keyPair.second = infos;
 		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Smash;
-		keyPair.second = 'Z';
+	}
+
+	{
+		keyPair.first = InputType::Up;
+		std::vector<KeyInfo> infos;
+		info = { KeyValue::Left, VK_LEFT };
+		infos.push_back(info);
+		info = { KeyValue::Right, VK_RIGHT };
+		infos.push_back(info);
+		info = { KeyValue::Up, VK_UP };
+		infos.push_back(info);
+		info = { KeyValue::Down, VK_DOWN };
+		infos.push_back(info);
+
+		keyPair.second = infos;
 		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Jump;
-		keyPair.second = 'C';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Skill1;
-		keyPair.second = 'A';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Skill2;
-		keyPair.second = 'S';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Skill3;
-		keyPair.second = 'D';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Skill4;
-		keyPair.second = 'F';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Skill5;
-		keyPair.second = 'G';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Skill6;
-		keyPair.second = 'H';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Item1;
-		keyPair.second = '1';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Item2;
-		keyPair.second = '2';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Item3;
-		keyPair.second = '3';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Item4;
-		keyPair.second = '4';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Item5;
-		keyPair.second = '5';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Itme6;
-		keyPair.second = '6';
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Escape;
-		keyPair.second = VK_ESCAPE;
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Left;
-		keyPair.second = VK_LEFT;
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Right;
-		keyPair.second = VK_RIGHT;
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Up;
-		keyPair.second = VK_UP;
-		KeySet.insert(keyPair);
-		keyPair.first = KeyValue::Down;
-		keyPair.second = VK_DOWN;
+	}
+
+	{
+		keyPair.first = InputType::Press;
+		std::vector<KeyInfo> infos;
+		info = { KeyValue::Left, VK_LEFT };
+		infos.push_back(info);
+		info = { KeyValue::Right, VK_RIGHT };
+		infos.push_back(info);
+		info = { KeyValue::Up, VK_UP };
+		infos.push_back(info);
+		info = { KeyValue::Down, VK_DOWN };
+		infos.push_back(info);
+
+		keyPair.second = infos;
 		KeySet.insert(keyPair);
 	}
 }
@@ -75,43 +85,78 @@ Keyboard::~Keyboard()
 
 void Keyboard::Update()
 {
-	for (pair<KeyValue::Type, int> set : KeySet)
-	{
-		if (KEY_DOWN(set.second))
-		{
-			if (FuncSet[set.first] != nullptr)
-				FuncSet[set.first]();
-		}
-	}
-
-	if (KEY_PRESS(KeySet[KeyValue::Up]))
-	{
-		if (FuncSet[KeyValue::Up] != nullptr)
-			FuncSet[KeyValue::Up]();
-	}
-	if (KEY_PRESS(KeySet[KeyValue::Down]))
-	{
-		if (FuncSet[KeyValue::Down] != nullptr)
-			FuncSet[KeyValue::Down]();
-	}
-	if (KEY_PRESS(KeySet[KeyValue::Left]))
-	{
-		if (FuncSet[KeyValue::Left] != nullptr)
-			FuncSet[KeyValue::Left]();
-	}
-	if (KEY_PRESS(KeySet[KeyValue::Right]))
-	{
-		if (FuncSet[KeyValue::Right] != nullptr)
-			FuncSet[KeyValue::Right]();
-	}
+	UpKeyUpdate();
+	DownKeyUpdate();
+	PressKeyUpdate();
 }
 
-void Keyboard::Add(KeyValue::Type Type, function<void()> function)
+void Keyboard::AddPressKey(KeyValue::Type Type, std::function<void()> function)
 {
-	FuncSet[Type] = function;
+	PressFuncSet[Type] = function;
+}
+
+void Keyboard::AddDownKey(KeyValue::Type Type, std::function<void()> function)
+{
+	DownFuncSet[Type] = function;
+}
+
+void Keyboard::AddUpKey(KeyValue::Type Type, std::function<void()> function)
+{
+	UpFuncSet[Type] = function;
 }
 
 void Keyboard::ChangeKey(KeyValue::Type Type, int Key)
 {
-	KeySet[Type] = Key;
+	map<InputType::Type, std::vector<KeyInfo>>::iterator it = KeySet.begin();
+	
+	for (; it != KeySet.end(); ++it)
+	{
+		for (KeyInfo& info : (*it).second)
+		{
+			if (info.Type == Type)
+			{
+				info.KeyValue = Key;
+				break;
+			}
+		}
+	}
+}
+
+void Keyboard::DownKeyUpdate()
+{
+	vector<KeyInfo> infos = KeySet[InputType::Down];
+	for (KeyInfo info : infos)
+	{
+		if (KEY_DOWN(info.KeyValue))
+		{
+			if (DownFuncSet[info.Type] != nullptr)
+				DownFuncSet[info.Type]();
+		}
+	}
+}
+
+void Keyboard::UpKeyUpdate()
+{
+	vector<KeyInfo> infos = KeySet[InputType::Up];
+	for (KeyInfo info : infos)
+	{
+		if (KEY_UP(info.KeyValue))
+		{
+			if (UpFuncSet[info.Type] != nullptr)
+				UpFuncSet[info.Type]();
+		}
+	}
+}
+
+void Keyboard::PressKeyUpdate()
+{
+	vector<KeyInfo> infos = KeySet[InputType::Press];
+	for (KeyInfo info : infos)
+	{
+		if (KEY_PRESS(info.KeyValue))
+		{
+			if(PressFuncSet[info.Type] != nullptr)
+				PressFuncSet[info.Type]();
+		}
+	}
 }

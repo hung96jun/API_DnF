@@ -111,9 +111,6 @@
     <ClInclude Include="Enums\KeyValue.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Keyboard.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Animation\Animation.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -126,7 +123,7 @@
     <ClInclude Include="Manager\RenderManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\TestKeyboard.h">
+    <ClInclude Include="Utilities\Keyboard.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -182,9 +179,6 @@
     <ClCompile Include="Manager\ObjectManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\Keyboard.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Animation\Animation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -197,7 +191,7 @@
     <ClCompile Include="Manager\RenderManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\TestKeyboard.cpp">
+    <ClCompile Include="Utilities\Keyboard.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

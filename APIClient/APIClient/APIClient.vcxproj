@@ -180,9 +180,8 @@
     <ClInclude Include="Structs\TextureInfo.h" />
     <ClInclude Include="Structs\TimerHandle.h" />
     <ClInclude Include="Utilities\Implement.h" />
-    <ClInclude Include="Utilities\Keyboard.h" />
     <ClInclude Include="Structs\SpriteInfo.h" />
-    <ClInclude Include="Utilities\TestKeyboard.h" />
+    <ClInclude Include="Utilities\Keyboard.h" />
     <ClInclude Include="Utilities\Texture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +208,8 @@
     <ClCompile Include="Objects\Collision.cpp" />
     <ClCompile Include="Scene\TestScene.cpp" />
     <ClCompile Include="Structs\TextureInfo.cpp" />
-    <ClCompile Include="Utilities\Keyboard.cpp" />
     <ClCompile Include="Structs\SpriteInfo.cpp" />
-    <ClCompile Include="Utilities\TestKeyboard.cpp" />
+    <ClCompile Include="Utilities\Keyboard.cpp" />
     <ClCompile Include="Utilities\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>

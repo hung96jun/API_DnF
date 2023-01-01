@@ -30,6 +30,7 @@ public:
 	LoopType::Type Loop;
 	float Speed = 0.1f;
 
+	std::map<int, std::function<void()>> FrameFunction;
 	std::function<void()> EndFunction;
 };
 
@@ -49,13 +50,24 @@ public:
 	const Vector2 GetOffset() const { return Offset; }
 	const Vector2 GetOriginSize() const { return OriginSize; }
 	const CutInfo GetCutInfo(const int& Key) { return CutInfos[Key]; }
+	void CallFrameFunction(const int& Key, const int& Frame)
+	{
+		if (CutInfos[Key].FrameFunction.count(Frame) == 0) return;
+		CutInfos[Key].FrameFunction[Frame]();
+	}
 
 	void SetLocation(const Vector2& Value);
 	void SetHidden(const bool& Value) { bHidden = Value; }
 	void SetCutFrame(const int& Key, const Vector2& Start, const Vector2& End, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 1.0f);
 	void SetEndFunction(const int& Key, std::function<void()> Func)
 	{
+		if (CutInfos[Key].EndFunction != nullptr) return;
 		CutInfos[Key].EndFunction = Func;
+	}
+	void SetFrameFunction(const int& key, const int& Frame, std::function<void()> Func)
+	{
+		if (CutInfos[key].FrameFunction.count(Frame) > 0) return;
+		CutInfos[key].FrameFunction[Frame] = Func;
 	}
 
 	SpriteInfo& operator=(const SpriteInfo& Other)
