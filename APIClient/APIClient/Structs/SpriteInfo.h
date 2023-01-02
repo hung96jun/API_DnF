@@ -22,14 +22,15 @@ public:
 		End = Vector2();
 		Loop = LoopType::Stop;
 	}
-	CutInfo(const Vector2& Start, const Vector2& End, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 0.1f)
-		: Start(Start), End(End), Loop(Loop), Speed(Speed) {}
+	CutInfo(const Vector2& Start, const Vector2& End, const Vector2& OriginSize, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 0.1f);
 
 	Vector2 Start;
 	Vector2 End;
 	LoopType::Type Loop;
 	float Speed = 0.1f;
-
+	int Frame = 0;
+	
+	float DelayTime;
 	std::map<int, std::function<void()>> FrameFunction;
 	std::function<void()> EndFunction;
 };
@@ -39,7 +40,7 @@ struct SpriteInfo
 public:
 	SpriteInfo() = default;
 	//SpriteInfo(SpriteInfo Other);
-	SpriteInfo(const std::wstring& Path, const Vector2& Size, const Vector2& Index, const Vector2& Offset = Vector2(0, 0), COLORREF Alpha = MAGENTA);
+	SpriteInfo(const std::wstring& Path, const Vector2& Size, const Vector2& Index, const int& MaxCount, const Vector2& Offset = Vector2(0, 0), COLORREF Alpha = MAGENTA);
 
 	HBITMAP GetTexture() { return hTexture; }
 
@@ -69,6 +70,11 @@ public:
 		if (CutInfos[key].FrameFunction.count(Frame) > 0) return;
 		CutInfos[key].FrameFunction[Frame] = Func;
 	}
+	void SetDelayTime(const int& Key, const float& DelayTime)
+	{
+		if (CutInfos[Key].DelayTime == 0.0f) return;
+		CutInfos[Key].DelayTime = DelayTime;
+	}
 
 	SpriteInfo& operator=(const SpriteInfo& Other)
 	{
@@ -95,9 +101,10 @@ private:
 	Vector2 Offset = {};
 	Vector2 OriginSize = {};
 	Vector2 MaxIndex = {};
+	UINT MaxCount = 0;
 	COLORREF Alpha = MAGENTA;
-	
+
 	bool bHidden = false;
 
 	std::map<int, CutInfo> CutInfos;
-}; 
+};

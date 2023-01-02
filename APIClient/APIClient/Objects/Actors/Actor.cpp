@@ -25,7 +25,7 @@ void Actor::Init()
 
 Actor::~Actor()
 {
-	delete Collision;
+	//delete Collision;
 }
 
 void Actor::Update()

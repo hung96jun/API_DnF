@@ -1,7 +1,7 @@
 #pragma once
 
-#define FIRST_ATTACK	static_cast<int>(Attack1)
-#define LAST_ATTACK		static_cast<int>(Attack3)
+#define FIRST_ATTACK	static_cast<int>(Attack1_R)
+#define LAST_ATTACK		static_cast<int>(Attack3_L)
 
 class Weapon;
 
@@ -12,22 +12,28 @@ private:
 	const float GRAVITY = 2000.0f;
 	const float Accel_SPEED = 1.7f;
 	
-
 	enum CharacterState
 	{
-		Idle = 0,
-		Move = 1,
-		Jump = 2,
-		Attack1 = 3,
-		Attack2 = 4,
-		Attack3 = 5,
-		Smash = 6,
+		Idle_R = 0,
+		Idle_L = 1,
+		Move_R = 2,
+		Move_L = 3,
+		Jump_R = 4,
+		Jump_L = 5,
+		Attack1_R = 6,
+		Attack1_L = 7,
+		Attack2_R = 8,
+		Attack2_L = 9,
+		Attack3_R = 10,
+		Attack3_L = 11,
+		Smash_R = 12,
+		Smash_L = 13,
 	};
 
 public:
 	Player();
 	Player(Vector2 Location);
-	~Player();
+	virtual ~Player() override;
 
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
@@ -42,13 +48,13 @@ private:
 
 	void MoveInput();
 
-	void AnimationSetting();
-	void AnimStateSetting();
+	virtual void AnimationSetting() override;
+	virtual void AnimStateSetting() override;
 
 	void KeyboardSetting();
 	void CollisionSetting();
 
-	void AnimationPlay();
+	virtual void AnimationPlay() override;
 
 	//////////////////////////////////////////////////////////////////////////////
 	/// Bind key function
@@ -71,25 +77,24 @@ private:
 	void SaveAttacking();
 	
 private:
-	//Weapon* weapon = nullptr;
+	Weapon* Sword = nullptr;
 	Keyboard* Key = nullptr;
 	//TestKeyboard* Key = nullptr;
-	Animation* Anim = nullptr;
-
-	Vector2 Size = {};
+	//Animation* Anim = nullptr;
+	
 	Vector2 Velocity = {};
+	// Before the Jump Location
 	Vector2 TempLocation = {};
 
 	float AccelMagnifi = 1.0f;
 	bool bJump = false;
 
-	CharacterState CurState = CharacterState::Idle;
-	CharacterState BeforeState = CharacterState::Idle;
+	CharacterState CurState = CharacterState::Idle_R;
+	CharacterState BeforeState = CharacterState::Idle_R;
+	Direction CurDir = Direction::Right;
 
 	bool IsChangeState = true;
 	bool IsMove = true;
 	bool bSaveCombo = false;
 	bool IsAttack = false;
-
-	UINT AttackCombo = 0;
 };

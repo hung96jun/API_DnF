@@ -171,6 +171,8 @@
     <ClInclude Include="Objects\Actors\Actor.h" />
     <ClInclude Include="Objects\Actors\Block.h" />
     <ClInclude Include="Objects\Actors\Characters\Character.h" />
+    <ClInclude Include="Objects\Actors\Characters\Monster\Goblin.h" />
+    <ClInclude Include="Objects\Actors\Characters\Monster\Monster.h" />
     <ClInclude Include="Objects\Actors\Characters\Player\Player.h" />
     <ClInclude Include="Objects\Actors\Weapon\Weapon.h" />
     <ClInclude Include="Objects\Object.h" />
@@ -202,6 +204,8 @@
     <ClCompile Include="Objects\Actors\Actor.cpp" />
     <ClCompile Include="Objects\Actors\Block.cpp" />
     <ClCompile Include="Objects\Actors\Characters\Character.cpp" />
+    <ClCompile Include="Objects\Actors\Characters\Monster\Goblin.cpp" />
+    <ClCompile Include="Objects\Actors\Characters\Monster\Monster.cpp" />
     <ClCompile Include="Objects\Actors\Characters\Player\Player.cpp" />
     <ClCompile Include="Objects\Actors\Weapon\Weapon.cpp" />
     <ClCompile Include="Objects\Object.cpp" />

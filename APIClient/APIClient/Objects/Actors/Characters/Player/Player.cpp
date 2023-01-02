@@ -17,12 +17,14 @@ Player::Player(Vector2 Location)
 Player::~Player()
 {
 	delete Key;
-	delete Anim;
+	delete Sword;
 }
 
 void Player::Init()
 {
 	Key = new Keyboard();
+	Sword = new Weapon(this);
+	
 
 	Location = Vector2(WIN_CENTER_X, WIN_CENTER_Y);
 
@@ -31,7 +33,7 @@ void Player::Init()
 	AnimationSetting();
 	AnimStateSetting();
 
-	CurState = Idle;
+	CurState = Idle_R;
 	Anim->Play(CurState);
 
 	//{
@@ -80,7 +82,7 @@ void Player::GetGravity()
 		bJump = false;
 		IsChangeState = true;
 		Velocity.y = 0.0f;
-		CurState = Idle;
+		CurState = Idle_R;
 	}
 }
 
@@ -98,24 +100,26 @@ void Player::MoveInput()
 #pragma region Bind key function
 void Player::MoveLeft()
 {
+	CurDir = Left;
 	if (Velocity.x != 0)
 		Velocity.x = 0;
 	else if (Location.x > SIZE.x * 0.5f)
 		Velocity.x = -Speed * AccelMagnifi;
 
 	if (IsChangeState == false) return;
-	CurState = Move;
+	CurState = Move_L;
 }
 
 void Player::MoveRight()
 {
+	CurDir = Right;
 	if (Velocity.x != 0)
 		Velocity.x = 0;
 	else if (Location.x < WIN_WIDTH - SIZE.x * 0.5f)
 		Velocity.x = Speed * AccelMagnifi;
 
 	if (IsChangeState == false) return;
-	CurState = Move;
+	CurState = Move_R;
 }
 
 void Player::MoveUp()
@@ -128,7 +132,11 @@ void Player::MoveUp()
 		Velocity.y = -Speed * AccelMagnifi;
 
 	if (IsChangeState == false) return;
-	CurState = Move;
+	
+	if (CurDir == Right)
+		CurState = Move_R;
+	else if (CurDir == Left)
+		CurState = Move_L;
 }
 
 void Player::MoveDown()
@@ -141,7 +149,11 @@ void Player::MoveDown()
 		Velocity.y = Speed * AccelMagnifi;
 
 	if (IsChangeState == false) return;
-	CurState = Move;
+	
+	if (CurDir == Right)
+		CurState = Move_R;
+	else if (CurDir == Left)
+		CurState = Move_L;
 }
 
 void Player::ReleaseMoveHorizontal()
@@ -150,8 +162,12 @@ void Player::ReleaseMoveHorizontal()
 
 	Velocity.x = 0;
 
-	if (CurState == Jump) return;
-	CurState = Idle;
+	if (CurState == Jump_R || CurState == Jump_L) return;
+	
+	if (CurDir == Right)
+		CurState = Idle_R;
+	else if (CurDir == Left)
+		CurState = Idle_L;
 }
 
 void Player::ReleaseMoveVertiacal()
@@ -160,13 +176,20 @@ void Player::ReleaseMoveVertiacal()
 
 	Velocity.y = 0;
 
-	if (CurState == Jump) return;
-	CurState = Idle;
+	if (CurState == Jump_R || CurState == Jump_L) return;
+
+	if (CurDir == Right)
+		CurState = Idle_R;
+	else if (CurDir == Left)
+		CurState = Idle_L;
 }
 
+/**
+* CurState 변경을 별도로 처리
+*/
 void Player::OnAttacking()
 {
-	if (IsChangeState == false) return;
+	if (bJump == true) return;
 	if (IsAttack == true) return;
 
 	//if(CurState != Attack1)
@@ -175,13 +198,16 @@ void Player::OnAttacking()
 	/// 공격중이 아닐 경우
 	if (CurState < FIRST_ATTACK)
 	{
-		CurState = Attack1;
+		if (CurDir == Right)
+			CurState = Attack1_R;
+		else if (CurDir == Left)
+			CurState = Attack1_L;
 	}
 
 	else if (CurState >= FIRST_ATTACK || CurState < LAST_ATTACK)
 	{
 		int temp = static_cast<int>(CurState);
-		++temp;
+		temp += 2;
 		CurState = static_cast<CharacterState>(temp);
 	}
 
@@ -192,6 +218,14 @@ void Player::OnAttacking()
 
 void Player::OnSmashing()
 {
+	if (CurDir == Right)
+		CurState = Smash_R;
+	else if (CurDir == Left)
+		CurState = Smash_L;
+
+	IsChangeState = false;
+	IsMove = false;
+	IsAttack = true;
 }
 
 void Player::OnJump()
@@ -201,8 +235,12 @@ void Player::OnJump()
 	if (IsMove == false) return;
 
 	IsChangeState = false;
-	CurState = Jump;
 	
+	if (CurDir == Right)
+		CurState = Jump_R;
+	else if (CurDir == Left)
+		CurState = Jump_L;
+
 	if(bJump == false)
 		TempLocation = Location;
 
@@ -213,7 +251,11 @@ void Player::OnJump()
 
 void Player::EndAttacking()
 {
-	CurState = Idle;
+	if (CurDir == Right)
+		CurState = Idle_R;
+	else if (CurDir == Left)
+		CurState = Idle_L;
+
 	IsMove = true;
 	IsChangeState = true;
 	IsAttack = false;
@@ -223,9 +265,9 @@ void Player::EndAttacking()
 void Player::SaveAttacking()
 {
 	IsAttack = false;
-	IsChangeState = true;
+	//IsChangeState = true;
 	
-	OnAttacking();
+	//OnAttacking();
 }
 
 void Player::OnBegin(RectCollision* Other)
@@ -242,36 +284,100 @@ void Player::OnBegin(RectCollision* Other)
 
 void Player::AnimationSetting()
 {
-	Anim = new Animation(this);
+	std::wstring str;
+	SpriteInfo sprite;
+	// Right Motion
+	{
+		str = L"Resource/Player/Knight/Movement_R.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(15, -17));
+		Anim->Add(L"Movement_R", sprite);
 
-	std::wstring str = L"Resource/Player/Knight/Movement.bmp";
-	SpriteInfo sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), Vector2(15, -17), 0.1f);
-	Anim->Add(L"Movement", sprite);
+		str = L"Resource/Player/Knight/NormalAttack_R.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 972), Vector2(6, 4), 22, Vector2(15, -17));
+		Anim->Add(L"NormalAttack_R", sprite);
 
-	str = L"Resource/Player/Knight/NormalAttack.bmp";
-	sprite = SpriteInfo(str, Vector2(1818, 972), Vector2(6, 4), Vector2(15, -17), 0.1f);
-	Anim->Add(L"NormalAttack", sprite);
+		str = L"Resource/Player/Knight/Skill1_R.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 1701), Vector2(6, 7), 37, Vector2(15, -17));
+		Anim->Add(L"Skill1_R", sprite);
+
+		str = L"Resource/Player/Knight/Skill2_R.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 2430), Vector2(6, 10), 61, Vector2(15, -17));
+		Anim->Add(L"Skill2_R", sprite);
+	}
+
+	// Left Motion
+	{
+		str = L"Resource/Player/Knight/Movement_L.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(-15, -17), 0.1f);
+		Anim->Add(L"Movement_L", sprite);
+
+		str = L"Resource/Player/Knight/NormalAttack_L.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 972), Vector2(6, 4), 22, Vector2(-15, -17));
+		Anim->Add(L"NormalAttack_L", sprite);
+
+		str = L"Resource/Player/Knight/Skill1_L.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 1701), Vector2(6, 7), 37, Vector2(-15, -17));
+		Anim->Add(L"Skill1_L", sprite);
+
+		str = L"Resource/Player/Knight/Skill2_L.bmp";
+		sprite = SpriteInfo(str, Vector2(1818, 2430), Vector2(6, 10), 61, Vector2(-15, -17));
+		Anim->Add(L"Skill2_L", sprite);
+	}
 }
 
 void Player::AnimStateSetting()
 {
-	Anim->SetFrame(L"Movement", CharacterState::Idle, Vector2(0, 1), Vector2(5, 1), LoopType::Loop);
-	Anim->SetFrame(L"Movement", CharacterState::Move, Vector2(0, 2), Vector2(3, 3), LoopType::Loop);
-	Anim->SetFrame(L"Movement", CharacterState::Jump, Vector2(0, 5), Vector2(5, 5), LoopType::Stop, 0.19f);
-	//Anim->SetEndFunction(L"Movement", CharacterState::Jump, bind(&Player::EndJump, this));
+	// Right Motion
+	{
+		Anim->SetFrame(L"Movement_R", CharacterState::Idle_R, Vector2(0, 1), Vector2(5, 1), LoopType::Loop, 0.1f);
+		Anim->SetFrame(L"Movement_R", CharacterState::Move_R, Vector2(0, 2), Vector2(3, 3), LoopType::Loop, 0.1f);
+		Anim->SetFrame(L"Movement_R", CharacterState::Jump_R, Vector2(0, 5), Vector2(5, 5), LoopType::Delay, 0.19f);
+		//Anim->SetEndFunction(L"Movement", CharacterState::Jump, bind(&Player::EndJump, this));
 
-	/**
-	* 현재 프레임값을 받아서 바인딩 함수를 호출하는 시스템을 만들었지만, 프레임이 튈 경우 호출이 안되는 문제가 발생
-	* 
-	*/
-	Anim->SetFrame(L"NormalAttack", CharacterState::Attack1, Vector2(0, 0), Vector2(2, 1), LoopType::Stop);
-	Anim->SetEndFunction(L"NormalAttack", CharacterState::Attack1, bind(&Player::EndAttacking, this));
-	Anim->AddFrameFunction(L"NormalAttack", CharacterState::Attack1, 10, bind(&Player::SaveAttacking, this));
+		Anim->SetFrame(L"NormalAttack_R", CharacterState::Attack1_R, Vector2(0, 0), Vector2(2, 1), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"NormalAttack_R", CharacterState::Attack1_R, bind(&Player::EndAttacking, this));
+		Anim->AddFrameFunction(L"NormalAttack_R", CharacterState::Attack1_R, 6, bind(&Player::SaveAttacking, this));
+		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack1_R, 0.02f);
 
-	Anim->SetFrame(L"NormalAttack", CharacterState::Attack2, Vector2(3, 2), Vector2(2, 3), LoopType::Stop);
-	Anim->SetEndFunction(L"NormalAttack", CharacterState::Attack2, bind(&Player::EndAttacking, this));
-	//Anim->SetFrame(L"NormalAttack", CharacterState::Attack2, Vector2(0, 0), Vector2(2, 1), LoopType::Stop);
-	//Anim->SetEndFunction(L"NormalAttack", CharacterState::Attack2, bind(&Player::EndAttacking, this));
+		Anim->SetFrame(L"NormalAttack_R", CharacterState::Attack2_R, Vector2(3, 1), Vector2(2, 2), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"NormalAttack_R", CharacterState::Attack2_R, bind(&Player::EndAttacking, this));
+		Anim->AddFrameFunction(L"NormalAttack_R", CharacterState::Attack2_R, 4, bind(&Player::SaveAttacking, this));
+		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack2_R, 0.02f);
+
+		Anim->SetFrame(L"NormalAttack_R", CharacterState::Attack3_R, Vector2(3, 2), Vector2(4, 3), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"NormalAttack_R", CharacterState::Attack3_R, bind(&Player::EndAttacking, this));
+		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack3_R, 0.02f);
+
+		Anim->SetFrame(L"Skill2_R", CharacterState::Smash_R, Vector2(0, 4), Vector2(3, 5), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"Skill2_R", CharacterState::Smash_R, bind(&Player::EndAttacking, this));
+		Anim->SetDelayTime(L"Skill2_R", CharacterState::Smash_R, 0.02f);
+	}
+
+	// Left Motion
+	{
+		Anim->SetFrame(L"Movement_L", CharacterState::Idle_L, Vector2(0, 1), Vector2(5, 1), LoopType::Loop, 0.1f);
+		Anim->SetFrame(L"Movement_L", CharacterState::Move_L, Vector2(0, 2), Vector2(3, 3), LoopType::Loop, 0.1f);
+		Anim->SetFrame(L"Movement_L", CharacterState::Jump_L, Vector2(0, 5), Vector2(5, 5), LoopType::Stop, 0.19f);
+		//Anim->SetEndFunction(L"Movement", CharacterState::Jump, bind(&Player::EndJump, this));
+
+		Anim->SetFrame(L"NormalAttack_L", CharacterState::Attack1_L, Vector2(0, 0), Vector2(2, 1), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"NormalAttack_L", CharacterState::Attack1_L, bind(&Player::EndAttacking, this));
+		Anim->AddFrameFunction(L"NormalAttack_L", CharacterState::Attack1_L, 6, bind(&Player::SaveAttacking, this));
+		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack1_L, 0.02f);
+
+		Anim->SetFrame(L"NormalAttack_L", CharacterState::Attack2_L, Vector2(3, 1), Vector2(2, 2), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"NormalAttack_L", CharacterState::Attack2_L, bind(&Player::EndAttacking, this));
+		Anim->AddFrameFunction(L"NormalAttack_L", CharacterState::Attack2_L, 4, bind(&Player::SaveAttacking, this));
+		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack2_L, 0.02f);
+
+		Anim->SetFrame(L"NormalAttack_L", CharacterState::Attack3_L, Vector2(3, 2), Vector2(4, 3), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"NormalAttack_L", CharacterState::Attack3_L, bind(&Player::EndAttacking, this));
+		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack3_L, 0.02f);
+
+		Anim->SetFrame(L"Skill2_L", CharacterState::Smash_L, Vector2(0, 4), Vector2(3, 5), LoopType::Delay, 0.07f);
+		Anim->SetEndFunction(L"Skill2_L", CharacterState::Smash_L, bind(&Player::EndAttacking, this));
+		Anim->SetDelayTime(L"Skill2_L", CharacterState::Smash_L, 0.02f);
+	}
 }
 
 void Player::KeyboardSetting()

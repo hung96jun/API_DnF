@@ -83,8 +83,12 @@
 #include "Objects/Object.h"
 #include "Objects/Actors/Actor.h"
 #include "Objects/Actors/Characters/Character.h"
+#include "Objects/Actors/Characters/Monster/Monster.h"
 
 #include "Animation/Animation.h"
+
+// Components
+//#include "Components/ActorComponent.h"
 
 // Scnene
 #include "Scene/Scene.h"

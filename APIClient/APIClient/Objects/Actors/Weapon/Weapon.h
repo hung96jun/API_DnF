@@ -15,6 +15,9 @@ public:
 
 	virtual void Render(HDC hdc) override;
 
+	void OnCollision(const Vector2& Location, const Vector2& Size);
+	void EndCollision() { Collision->SetActive(false); }
+
 protected:
 	virtual void OnBegin(RectCollision* Other) override;
 	

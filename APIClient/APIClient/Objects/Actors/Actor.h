@@ -7,7 +7,7 @@ class Actor //: public Object
 public:
 	Actor();
 	Actor(Vector2 Location);
-	~Actor();
+	virtual ~Actor();
 
 	virtual void Update();
 
