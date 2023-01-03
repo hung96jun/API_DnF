@@ -39,6 +39,11 @@ public:
 		this->Location = Location;
 	}
 
+	void AdditionalLocation(const Vector2& Location)
+	{
+		this->Location += Location;
+	}
+
 	void SetSize(const Vector2& Size)
 	{
 		this->Size = Size;

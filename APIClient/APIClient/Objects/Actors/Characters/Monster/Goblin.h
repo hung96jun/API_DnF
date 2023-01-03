@@ -22,7 +22,4 @@ private:
 
 	virtual void AnimationPlay() override;
 
-private:
-	State CurState;
-	State BeforeState;
 };

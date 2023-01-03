@@ -55,6 +55,11 @@ void Animation::SetEndFunction(const WSTR& FileName, const int& Key, std::functi
 	Animations[FileName]->SetEndFunction(Key, Func);
 }
 
+//void Animation::AddRangeFunction(const std::wstring& FileName, const int& Key, const int& Start, const int& End, std::function<void()> Func)
+//{
+//	Animations[FileName]->AddRangeFrameFunction(Key, Start, End, Func);
+//}
+
 void Animation::SetDelayTime(const WSTR& FileName, const int& Key, const float& DelayTime)
 {
 	Animations[FileName]->SetDelayTime(Key, DelayTime);
@@ -79,6 +84,12 @@ void Animation::Destroy()
 
 void Animation::Play(const int& Key)
 {
+	//if (CurAnim != nullptr)
+	//{
+	//	if(CurAnim->GetCutInfo(SelectKey).EndFunction != nullptr)
+	//		CurAnim->GetCutInfo(SelectKey).EndFunction();
+	//}
+
 	if (KeySet.count(Key) == 0) return;
 
 	ResetAnimation();
@@ -103,7 +114,7 @@ void Animation::Update()
 	CurAnim->SetLocation(Owner->GetLocation());
 
 	// 단일 프레임 처리를 위한 조건문
-	if (CurFrame == CurAnim->GetCutInfo(SelectKey).End)
+	if (CurAnim->GetCutInfo(SelectKey).Start == CurAnim->GetCutInfo(SelectKey).End)
 	{
 		ResetFrame();
 		return;
@@ -154,6 +165,11 @@ void Animation::Update()
 		{
 			CurAnim->CallFrameFunction(SelectKey, CountFrame);
 		}
+
+		//if (CurAnim->GetCutInfo(SelectKey).RangeFunction.size() > 0)
+		//{
+		//	CurAnim->CallRangeFrameFunction(SelectKey, CountFrame);
+		//}
 
 		CurTime = 0.0f;
 	}

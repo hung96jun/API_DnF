@@ -91,6 +91,11 @@ void Player::MoveInput()
 {
 	if (IsMove == false) return;
 
+	if (IsMoveX == false)
+		Velocity.x = 0.0f;
+	if (IsMoveY == false)
+		Velocity.y = 0.0f;
+
 	Location += Velocity * DELTA_TIME;
 	if(bJump == false)
 		Velocity = {0, 0};
@@ -100,7 +105,9 @@ void Player::MoveInput()
 #pragma region Bind key function
 void Player::MoveLeft()
 {
-	CurDir = Left;
+	if(bJump == false)
+		CurDir = Left;
+
 	if (Velocity.x != 0)
 		Velocity.x = 0;
 	else if (Location.x > SIZE.x * 0.5f)
@@ -112,7 +119,9 @@ void Player::MoveLeft()
 
 void Player::MoveRight()
 {
-	CurDir = Right;
+	if (bJump == false)
+		CurDir = Right;
+
 	if (Velocity.x != 0)
 		Velocity.x = 0;
 	else if (Location.x < WIN_WIDTH - SIZE.x * 0.5f)
@@ -145,7 +154,7 @@ void Player::MoveDown()
 
 	if (Velocity.y != 0)
 		Velocity.y = 0;
-	else if (Location.y < WIN_HEIGHT - SIZE.x * 0.5f)
+	else if (Location.y < WIN_HEIGHT - SIZE.y * 0.5f)
 		Velocity.y = Speed * AccelMagnifi;
 
 	if (IsChangeState == false) return;
@@ -249,6 +258,11 @@ void Player::OnJump()
 	Velocity.y = -JUMP_POWER;
 }
 
+void Player::AttackMoveForward()
+{
+	Location.x += (Speed * 0.5f) * DELTA_TIME;
+}
+
 void Player::EndAttacking()
 {
 	if (CurDir == Right)
@@ -289,38 +303,38 @@ void Player::AnimationSetting()
 	// Right Motion
 	{
 		str = L"Resource/Player/Knight/Movement_R.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(15, -17));
+		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(15, -20));
 		Anim->Add(L"Movement_R", sprite);
 
 		str = L"Resource/Player/Knight/NormalAttack_R.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 972), Vector2(6, 4), 22, Vector2(15, -17));
+		sprite = SpriteInfo(str, Vector2(1818, 972), Vector2(6, 4), 22, Vector2(15, -20));
 		Anim->Add(L"NormalAttack_R", sprite);
 
 		str = L"Resource/Player/Knight/Skill1_R.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 1701), Vector2(6, 7), 37, Vector2(15, -17));
+		sprite = SpriteInfo(str, Vector2(1818, 1701), Vector2(6, 7), 37, Vector2(15, -20));
 		Anim->Add(L"Skill1_R", sprite);
 
 		str = L"Resource/Player/Knight/Skill2_R.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 2430), Vector2(6, 10), 61, Vector2(15, -17));
+		sprite = SpriteInfo(str, Vector2(1818, 2430), Vector2(6, 10), 61, Vector2(15, -20));
 		Anim->Add(L"Skill2_R", sprite);
 	}
 
 	// Left Motion
 	{
 		str = L"Resource/Player/Knight/Movement_L.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(-15, -17), 0.1f);
+		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(-15, -20), 0.1f);
 		Anim->Add(L"Movement_L", sprite);
 
 		str = L"Resource/Player/Knight/NormalAttack_L.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 972), Vector2(6, 4), 22, Vector2(-15, -17));
+		sprite = SpriteInfo(str, Vector2(1818, 972), Vector2(6, 4), 22, Vector2(-15, -20));
 		Anim->Add(L"NormalAttack_L", sprite);
 
 		str = L"Resource/Player/Knight/Skill1_L.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 1701), Vector2(6, 7), 37, Vector2(-15, -17));
+		sprite = SpriteInfo(str, Vector2(1818, 1701), Vector2(6, 7), 37, Vector2(-15, -20));
 		Anim->Add(L"Skill1_L", sprite);
 
 		str = L"Resource/Player/Knight/Skill2_L.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 2430), Vector2(6, 10), 61, Vector2(-15, -17));
+		sprite = SpriteInfo(str, Vector2(1818, 2430), Vector2(6, 10), 61, Vector2(-15, -20));
 		Anim->Add(L"Skill2_L", sprite);
 	}
 }
@@ -330,53 +344,52 @@ void Player::AnimStateSetting()
 	// Right Motion
 	{
 		Anim->SetFrame(L"Movement_R", CharacterState::Idle_R, Vector2(0, 1), Vector2(5, 1), LoopType::Loop, 0.1f);
-		Anim->SetFrame(L"Movement_R", CharacterState::Move_R, Vector2(0, 2), Vector2(3, 3), LoopType::Loop, 0.1f);
+		Anim->SetFrame(L"Movement_R", CharacterState::Move_R, Vector2(0, 2), Vector2(3, 3), LoopType::Loop, 0.07f);
 		Anim->SetFrame(L"Movement_R", CharacterState::Jump_R, Vector2(0, 5), Vector2(5, 5), LoopType::Delay, 0.19f);
 		//Anim->SetEndFunction(L"Movement", CharacterState::Jump, bind(&Player::EndJump, this));
 
 		Anim->SetFrame(L"NormalAttack_R", CharacterState::Attack1_R, Vector2(0, 0), Vector2(2, 1), LoopType::Delay, 0.07f);
 		Anim->SetEndFunction(L"NormalAttack_R", CharacterState::Attack1_R, bind(&Player::EndAttacking, this));
 		Anim->AddFrameFunction(L"NormalAttack_R", CharacterState::Attack1_R, 6, bind(&Player::SaveAttacking, this));
-		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack1_R, 0.02f);
-
+		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack1_R, 0.2f);
+		
 		Anim->SetFrame(L"NormalAttack_R", CharacterState::Attack2_R, Vector2(3, 1), Vector2(2, 2), LoopType::Delay, 0.07f);
 		Anim->SetEndFunction(L"NormalAttack_R", CharacterState::Attack2_R, bind(&Player::EndAttacking, this));
 		Anim->AddFrameFunction(L"NormalAttack_R", CharacterState::Attack2_R, 4, bind(&Player::SaveAttacking, this));
-		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack2_R, 0.02f);
+		//Anim->AddRangeFunction(L"NormalAttack_R", CharacterState::Attack2_R, 2, 6, bind(&Player::AttackMoveForward, this));
+		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack2_R, 0.2f);
 
 		Anim->SetFrame(L"NormalAttack_R", CharacterState::Attack3_R, Vector2(3, 2), Vector2(4, 3), LoopType::Delay, 0.07f);
 		Anim->SetEndFunction(L"NormalAttack_R", CharacterState::Attack3_R, bind(&Player::EndAttacking, this));
-		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack3_R, 0.02f);
+		Anim->SetDelayTime(L"NormalAttack_R", CharacterState::Attack3_R, 0.2f);
 
-		Anim->SetFrame(L"Skill2_R", CharacterState::Smash_R, Vector2(0, 4), Vector2(3, 5), LoopType::Delay, 0.07f);
+		Anim->SetFrame(L"Skill2_R", CharacterState::Smash_R, Vector2(0, 4), Vector2(3, 5), LoopType::Stop, 0.07f);
 		Anim->SetEndFunction(L"Skill2_R", CharacterState::Smash_R, bind(&Player::EndAttacking, this));
-		Anim->SetDelayTime(L"Skill2_R", CharacterState::Smash_R, 0.02f);
 	}
 
 	// Left Motion
 	{
 		Anim->SetFrame(L"Movement_L", CharacterState::Idle_L, Vector2(0, 1), Vector2(5, 1), LoopType::Loop, 0.1f);
-		Anim->SetFrame(L"Movement_L", CharacterState::Move_L, Vector2(0, 2), Vector2(3, 3), LoopType::Loop, 0.1f);
+		Anim->SetFrame(L"Movement_L", CharacterState::Move_L, Vector2(0, 2), Vector2(3, 3), LoopType::Loop, 0.07f);
 		Anim->SetFrame(L"Movement_L", CharacterState::Jump_L, Vector2(0, 5), Vector2(5, 5), LoopType::Stop, 0.19f);
 		//Anim->SetEndFunction(L"Movement", CharacterState::Jump, bind(&Player::EndJump, this));
 
 		Anim->SetFrame(L"NormalAttack_L", CharacterState::Attack1_L, Vector2(0, 0), Vector2(2, 1), LoopType::Delay, 0.07f);
 		Anim->SetEndFunction(L"NormalAttack_L", CharacterState::Attack1_L, bind(&Player::EndAttacking, this));
 		Anim->AddFrameFunction(L"NormalAttack_L", CharacterState::Attack1_L, 6, bind(&Player::SaveAttacking, this));
-		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack1_L, 0.02f);
+		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack1_L, 0.2f);
 
 		Anim->SetFrame(L"NormalAttack_L", CharacterState::Attack2_L, Vector2(3, 1), Vector2(2, 2), LoopType::Delay, 0.07f);
 		Anim->SetEndFunction(L"NormalAttack_L", CharacterState::Attack2_L, bind(&Player::EndAttacking, this));
 		Anim->AddFrameFunction(L"NormalAttack_L", CharacterState::Attack2_L, 4, bind(&Player::SaveAttacking, this));
-		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack2_L, 0.02f);
+		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack2_L, 0.2f);
 
 		Anim->SetFrame(L"NormalAttack_L", CharacterState::Attack3_L, Vector2(3, 2), Vector2(4, 3), LoopType::Delay, 0.07f);
 		Anim->SetEndFunction(L"NormalAttack_L", CharacterState::Attack3_L, bind(&Player::EndAttacking, this));
-		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack3_L, 0.02f);
+		Anim->SetDelayTime(L"NormalAttack_L", CharacterState::Attack3_L, 0.2f);
 
-		Anim->SetFrame(L"Skill2_L", CharacterState::Smash_L, Vector2(0, 4), Vector2(3, 5), LoopType::Delay, 0.07f);
+		Anim->SetFrame(L"Skill2_L", CharacterState::Smash_L, Vector2(0, 4), Vector2(3, 5), LoopType::Stop, 0.07f);
 		Anim->SetEndFunction(L"Skill2_L", CharacterState::Smash_L, bind(&Player::EndAttacking, this));
-		Anim->SetDelayTime(L"Skill2_L", CharacterState::Smash_L, 0.02f);
 	}
 }
 
@@ -403,7 +416,7 @@ void Player::CollisionSetting()
 	Collision->SetHidden(false);
 
 	Collision->SetLocation(Vector2(WIN_CENTER_X, WIN_CENTER_Y));
-	Collision->SetSize(Vector2(50.0f, 50.0f));
+	Collision->SetSize(Vector2(50.0f, 90.0f));
 
 	Collision->AddFunction(Implement<Player>(this, &Player::OnBegin));
 }

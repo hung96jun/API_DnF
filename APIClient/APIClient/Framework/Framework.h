@@ -9,8 +9,16 @@
 //#define WIN_WIDTH WinSize.x
 //#define WIN_HEIGHT WinSize.y
 
+#define RES_HD 1
+
+#ifndef RES_HD
 #define WIN_WIDTH 1280
 #define WIN_HEIGHT 720
+
+#else
+#define WIN_WIDTH 960
+#define WIN_HEIGHT 540
+#endif // !HD
 
 #define WIN_CENTER_X WIN_WIDTH * 0.5f
 #define WIN_CENTER_Y WIN_HEIGHT * 0.5f
@@ -71,6 +79,8 @@
 #include "Manager/CollisionManager.h"
 #include "Manager/ObjectManager.h"
 
+#include "Components/Camera.h"
+
 // Utilities
 #include "Utilities/Keyboard.h"
 #include "Utilities/Texture.h"
@@ -84,6 +94,9 @@
 #include "Objects/Actors/Actor.h"
 #include "Objects/Actors/Characters/Character.h"
 #include "Objects/Actors/Characters/Monster/Monster.h"
+
+//
+#include "Background/Background.h"
 
 #include "Animation/Animation.h"
 

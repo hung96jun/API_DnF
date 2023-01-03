@@ -14,11 +14,16 @@ public:
 	virtual void AfterRender(HDC hdc) override;
 
 private:
+	Background* BackImage = nullptr;
 	Player* player = nullptr;
 	//RectCollision* test = nullptr;
-	Player* test = nullptr;
+	//	Player* test = nullptr;
 
+	RectCollision* Test = nullptr;
 
 	HDC hMemdc;
+	BITMAP TestMap;
 	HBITMAP hBitmap;
+
+	RectCollision BackRect;
 };

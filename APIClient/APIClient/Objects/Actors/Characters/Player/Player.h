@@ -38,6 +38,17 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
+	const Vector2& GetVelocity() { return Velocity; }
+
+	void ControlMoveX(bool Value) { IsMoveX = Value; }
+	void ControlMoveY(bool Value) { IsMoveY = Value; }
+
+	void SetLocationX(float X) { this->Location.x = X; }
+	void SetLocationY(float Y) { this->Location.y = Y; }
+
+	const bool IsJump() { return bJump; }
+	void SetField(BITMAP Field) { this->Field = Field; }
+
 protected:
 	virtual void OnBegin(RectCollision* Other) override;
 	void GetGravity();
@@ -71,6 +82,8 @@ private:
 	void OnSmashing();
 	void OnJump();
 
+	void AttackMoveForward();
+
 	void EndAttacking();
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -79,6 +92,7 @@ private:
 private:
 	Weapon* Sword = nullptr;
 	Keyboard* Key = nullptr;
+	BITMAP Field;
 	//TestKeyboard* Key = nullptr;
 	//Animation* Anim = nullptr;
 	
@@ -95,6 +109,8 @@ private:
 
 	bool IsChangeState = true;
 	bool IsMove = true;
+	bool IsMoveX = true;
+	bool IsMoveY = true;
 	bool bSaveCombo = false;
 	bool IsAttack = false;
 };

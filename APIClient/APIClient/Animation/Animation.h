@@ -17,6 +17,7 @@ public:
 	void SetFrame(const WSTR& FileName, const int& Key, const Vector2& Start, const Vector2& End, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 0.0f);
 	void AddFrameFunction(const WSTR& FileName, const int& Key, const int& Frame, std::function<void()> Func);
 	void SetEndFunction(const WSTR& FileName, const int& Key, std::function<void()> Func);
+	//void AddRangeFunction(const std::wstring& FileName, const int& Key, const int& Start, const int& End, std::function<void()> Func);
 	void SetDelayTime(const WSTR& FileName, const int& Key, const float& DelayTime);
 	void Remove(const WSTR& FileName);
 	void Destroy();

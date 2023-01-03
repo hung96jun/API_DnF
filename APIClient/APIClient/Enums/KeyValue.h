@@ -26,5 +26,15 @@ namespace KeyValue
 		Right,
 		Up,
 		Down,
+
+		Temp1,
+		Temp2,
+		Temp3,
+		Temp4,
+		Temp5,
+		Temp6,
+		Temp7,
+		Temp8,
+		Temp9,
 	};
 }

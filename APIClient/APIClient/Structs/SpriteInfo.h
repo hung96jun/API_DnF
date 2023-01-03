@@ -21,6 +21,7 @@ public:
 		Start = Vector2();
 		End = Vector2();
 		Loop = LoopType::Stop;
+		DelayTime = 0.0f;
 	}
 	CutInfo(const Vector2& Start, const Vector2& End, const Vector2& OriginSize, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 0.1f);
 
@@ -33,6 +34,10 @@ public:
 	float DelayTime;
 	std::map<int, std::function<void()>> FrameFunction;
 	std::function<void()> EndFunction;
+	/**
+	* @Key	KeyValue x is Start Frame, KeyValue y is End Frame
+	*/
+	//std::map<Vector2, std::function<void()>> RangeFunction;
 };
 
 struct SpriteInfo
@@ -56,6 +61,19 @@ public:
 		if (CutInfos[Key].FrameFunction.count(Frame) == 0) return;
 		CutInfos[Key].FrameFunction[Frame]();
 	}
+	//void CallRangeFrameFunction(const int& Key, const int& Frame)
+	//{
+	//	for (std::pair<Vector2, std::function<void()>> funcPair : CutInfos[Key].RangeFunction)
+	//	{
+	//		if (funcPair.first.x >= Frame)
+	//		{
+	//			if (funcPair.first.y <= Frame)
+	//			{
+	//				funcPair.second();
+	//			}
+	//		}
+	//	}
+	//}
 
 	void SetLocation(const Vector2& Value);
 	void SetHidden(const bool& Value) { bHidden = Value; }
@@ -65,6 +83,11 @@ public:
 		if (CutInfos[Key].EndFunction != nullptr) return;
 		CutInfos[Key].EndFunction = Func;
 	}
+	//void AddRangeFrameFunction(const int& Key, const int& Start, const int& End, std::function<void()> Func)
+	//{
+	//	Vector2 frame = { (float)Start, (float)End };
+	//	CutInfos[Key].RangeFunction[frame] = Func;
+	//}
 	void SetFrameFunction(const int& key, const int& Frame, std::function<void()> Func)
 	{
 		if (CutInfos[key].FrameFunction.count(Frame) > 0) return;
@@ -72,7 +95,7 @@ public:
 	}
 	void SetDelayTime(const int& Key, const float& DelayTime)
 	{
-		if (CutInfos[Key].DelayTime == 0.0f) return;
+		if (CutInfos[Key].DelayTime != 0.0f) return;
 		CutInfos[Key].DelayTime = DelayTime;
 	}
 
