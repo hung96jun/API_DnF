@@ -42,6 +42,7 @@ Keyboard::Keyboard()
 		info = { KeyValue::Escape, VK_ESCAPE };
 		infos.push_back(info);
 
+
 		keyPair.second = infos;
 		KeySet.insert(keyPair);
 	}
@@ -58,6 +59,9 @@ Keyboard::Keyboard()
 		info = { KeyValue::Down, VK_DOWN };
 		infos.push_back(info);
 
+		info = { KeyValue::Temp1, VK_RIGHT };
+		infos.push_back(info);
+
 		keyPair.second = infos;
 		KeySet.insert(keyPair);
 	}
@@ -72,6 +76,18 @@ Keyboard::Keyboard()
 		info = { KeyValue::Up, VK_UP };
 		infos.push_back(info);
 		info = { KeyValue::Down, VK_DOWN };
+		infos.push_back(info);
+
+		info = { KeyValue::Temp2, 'W'};
+		infos.push_back(info);
+		info = { KeyValue::Temp3, 'A' };
+		infos.push_back(info);
+		info = { KeyValue::Temp4, 'S' };
+		infos.push_back(info);
+		info = { KeyValue::Temp5, 'D' };
+		infos.push_back(info);
+
+		info = { KeyValue::Temp1, VK_RBUTTON };
 		infos.push_back(info);
 
 		keyPair.second = infos;

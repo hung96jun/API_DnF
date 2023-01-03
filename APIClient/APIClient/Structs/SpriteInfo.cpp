@@ -20,10 +20,10 @@
 * MaxIndex로 스프라이트 이미지의 총 갯수
 * 두개를 따로 받아와야 할것같다.
 */
-SpriteInfo::SpriteInfo(const std::wstring& Path, const Vector2& Size, const Vector2& Index, const Vector2& Offset, COLORREF Alpha)
+SpriteInfo::SpriteInfo(const std::wstring& Path, const Vector2& Size, const Vector2& Index, const int& MaxCount, const Vector2& Offset, COLORREF Alpha)
 	:Path(Path), MaxIndex(Index), Offset(Offset), OriginSize(Size), Alpha(Alpha)
 {
-	hTexture = (HBITMAP)LoadImage(hInst, Path.c_str(), IMAGE_BITMAP, Size.x, Size.y, LR_LOADFROMFILE);
+	hTexture = (HBITMAP)LoadImage(hInst, Path.c_str(), IMAGE_BITMAP, (int)Size.x, (int)Size.y, LR_LOADFROMFILE);
 
 	CutSize.x = Size.x / Index.x;
 	CutSize.y = Size.y / Index.y;
@@ -42,6 +42,14 @@ void SpriteInfo::SetLocation(const Vector2& Value)
 
 void SpriteInfo::SetCutFrame(const int& Key, const Vector2& Start, const Vector2& End, const LoopType::Type& Loop, const float& Speed)
 {
-	CutInfos[Key] = CutInfo(Start, End, Loop, Speed);
+	CutInfos[Key] = CutInfo(Start, End, MaxIndex, Loop, Speed);
 }
 
+CutInfo::CutInfo(const Vector2& Start, const Vector2& End, const Vector2& OriginSize, const LoopType::Type& Loop, const float& Speed)
+	: Start(Start), End(End), Loop(Loop), Speed(Speed), DelayTime(0.0f)
+{
+	int y = (int)(End.y - Start.y);
+	Frame = (int)(OriginSize.x * y);
+	Frame -= (int)Start.x;
+	Frame -= (int)(OriginSize.x - End.x);
+}

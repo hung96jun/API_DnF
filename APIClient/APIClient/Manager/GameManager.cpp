@@ -18,6 +18,7 @@ GameManager::~GameManager()
 	TimerManager::Destory();
 	KeyboardManager::Destory();
 	CollisionManager::Destory();
+	Camera::Destory();
 }
 
 void GameManager::Init()
@@ -32,6 +33,7 @@ void GameManager::Init()
 	TimerManager::Get();
 	CollisionManager::Get();
 	ObjectManager::Get();
+	Camera::Get();
 
 	SetBkMode(hBackDC, TRANSPARENT);
 }

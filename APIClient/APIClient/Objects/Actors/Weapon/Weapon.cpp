@@ -36,9 +36,18 @@ void Weapon::OnBegin(RectCollision* Other)
 
 void Weapon::Update()
 {
+	Super::Update();
 }
 
 void Weapon::Render(HDC hdc)
 {
+	Super::Render(hdc);
+}
+
+void Weapon::OnCollision(const Vector2& Location, const Vector2& Size)
+{
+	this->Location = Location;
+	Collision->SetSize(Size);
+	Collision->SetActive(true);
 }
 

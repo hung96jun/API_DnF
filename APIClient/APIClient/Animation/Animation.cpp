@@ -35,6 +35,11 @@ void Animation::SetFrame(const WSTR& FileName, const int& Key, const Vector2& St
 	// 입력된 행동 key값이 있을 경우
 	if (KeySet.count(Key) > 0) return;
 
+	if (Speed == 0.0f)
+	{
+
+	}
+
 	SpriteInfo* sprite = Animations[FileName];
 	KeySet[Key] = FileName;
 	sprite->SetCutFrame(Key, Start, End, Loop, Speed);
@@ -50,6 +55,16 @@ void Animation::SetEndFunction(const WSTR& FileName, const int& Key, std::functi
 	Animations[FileName]->SetEndFunction(Key, Func);
 }
 
+//void Animation::AddRangeFunction(const std::wstring& FileName, const int& Key, const int& Start, const int& End, std::function<void()> Func)
+//{
+//	Animations[FileName]->AddRangeFrameFunction(Key, Start, End, Func);
+//}
+
+void Animation::SetDelayTime(const WSTR& FileName, const int& Key, const float& DelayTime)
+{
+	Animations[FileName]->SetDelayTime(Key, DelayTime);
+}
+
 void Animation::Remove(const WSTR& FileName)
 {
 	if (Animations.count(FileName) == 0) return;
@@ -60,16 +75,24 @@ void Animation::Remove(const WSTR& FileName)
 
 void Animation::Destroy()
 {
-	for(pair<std::wstring, SpriteInfo*> animation : Animations)
+	for (pair<std::wstring, SpriteInfo*> Animation : Animations)
 	{
-		delete animation.second;
+		delete Animation.second;
 	}
 	Animations.clear();
 }
 
 void Animation::Play(const int& Key)
 {
+	//if (CurAnim != nullptr)
+	//{
+	//	if(CurAnim->GetCutInfo(SelectKey).EndFunction != nullptr)
+	//		CurAnim->GetCutInfo(SelectKey).EndFunction();
+	//}
+
 	if (KeySet.count(Key) == 0) return;
+
+	ResetAnimation();
 
 	SelectKey = Key;
 	std::wstring file = KeySet[Key];
@@ -90,31 +113,52 @@ void Animation::Update()
 
 	CurAnim->SetLocation(Owner->GetLocation());
 
-	if (CurFrame == CurAnim->GetCutInfo(SelectKey).End)
+	// 단일 프레임 처리를 위한 조건문
+	if (CurAnim->GetCutInfo(SelectKey).Start == CurAnim->GetCutInfo(SelectKey).End)
 	{
 		ResetFrame();
-
-		if (CurAnim->GetCutInfo(SelectKey).Loop == LoopType::Delay)
-			return;
+		return;
 	}
 
 	if (CurTime > CurAnim->GetCutInfo(SelectKey).Speed)
 	{
+		if (CurFrame == CurAnim->GetCutInfo(SelectKey).End)
+		{
+			if (CurAnim->GetCutInfo(SelectKey).Loop == LoopType::Delay)
+			{
+				if (DelayTime == 0.0f)
+					DelayTime = CurTime;
+
+				float testTime = CurTime - DelayTime;
+				float testTime1 = CurAnim->GetCutInfo(SelectKey).DelayTime;
+
+				if (CurTime - DelayTime < CurAnim->GetCutInfo(SelectKey).DelayTime)
+				{
+					CurTime += DELTA_TIME;
+					return;
+				}
+			}
+
+			ResetFrame();
+		}
+
 		++CurFrame.x;
 		++CountFrame;
-	
+
 		if (CurFrame.x == CurAnim->GetMaxIndex().x)
 		{
-			CurFrame.x = CurAnim->GetCutInfo(SelectKey).Start.x;
-			
-			if (CurFrame.y == CurAnim->GetMaxIndex().y ||
+			if (CurFrame == CurAnim->GetMaxIndex() &&
 				CurFrame.y == CurAnim->GetCutInfo(SelectKey).End.y)
 			{
 				ResetFrame();
 			}
 
 			else
+			{
 				++CurFrame.y;
+			}
+
+			CurFrame.x = 0;
 		}
 
 		if (CurAnim->GetCutInfo(SelectKey).FrameFunction.size() > 0)
@@ -122,9 +166,14 @@ void Animation::Update()
 			CurAnim->CallFrameFunction(SelectKey, CountFrame);
 		}
 
+		//if (CurAnim->GetCutInfo(SelectKey).RangeFunction.size() > 0)
+		//{
+		//	CurAnim->CallRangeFrameFunction(SelectKey, CountFrame);
+		//}
+
 		CurTime = 0.0f;
 	}
-	
+
 	CurTime += DELTA_TIME;
 }
 
@@ -159,6 +208,14 @@ void Animation::Render(HDC hdc)
 	}
 }
 
+void Animation::ResetAnimation()
+{
+	CurIndex = 0;
+	CurFrame = {};
+	CountFrame = 0;
+	CurTime = 0.0f;
+}
+
 void Animation::ResetFrame()
 {
 	switch (CurAnim->GetCutInfo(SelectKey).Loop)
@@ -168,14 +225,15 @@ void Animation::ResetFrame()
 		CurFrame = CurAnim->GetCutInfo(SelectKey).Start;
 		CountFrame = 0;
 	}
-		break;
-	//case LoopType::Delay:
-	//{
-	//	CurTime = 0.0f;
-	//	CurFrame.x = CurAnim->GetCutInfo(SelectKey).End.x - 1;
-	//	CurFrame.y = CurAnim->GetCutInfo(SelectKey).End.y;
-	//}
-	//	break;
+	break;
+	case LoopType::Delay:
+	{
+		if (CurAnim->GetCutInfo(SelectKey).EndFunction != nullptr)
+			CurAnim->GetCutInfo(SelectKey).EndFunction();
+
+		ResetAnimation();
+	}
+	break;
 	case LoopType::Stop:
 	{
 		if (CurAnim->GetCutInfo(SelectKey).EndFunction != nullptr)
@@ -184,7 +242,7 @@ void Animation::ResetFrame()
 		bPlay = false;
 		CountFrame = 0;
 	}
-		break;
+	break;
 	default:
 		break;
 	}

@@ -14,9 +14,11 @@ public:
 	* @param	FileName	FileName + extension
 	*/
 	void Add(const WSTR& FileName, SpriteInfo Sprite);
-	void SetFrame(const WSTR& FileName, const int& Key, const Vector2& Start, const Vector2& End, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 0.1f);
+	void SetFrame(const WSTR& FileName, const int& Key, const Vector2& Start, const Vector2& End, const LoopType::Type& Loop = LoopType::Stop, const float& Speed = 0.0f);
 	void AddFrameFunction(const WSTR& FileName, const int& Key, const int& Frame, std::function<void()> Func);
 	void SetEndFunction(const WSTR& FileName, const int& Key, std::function<void()> Func);
+	//void AddRangeFunction(const std::wstring& FileName, const int& Key, const int& Start, const int& End, std::function<void()> Func);
+	void SetDelayTime(const WSTR& FileName, const int& Key, const float& DelayTime);
 	void Remove(const WSTR& FileName);
 	void Destroy();
 
@@ -25,6 +27,8 @@ public:
 
 	void Update();
 	void Render(HDC hdc);
+
+	void ResetAnimation();
 
 private:
 	void ResetFrame();
@@ -38,7 +42,7 @@ private:
 
 	std::map<std::wstring, SpriteInfo*> Animations;
 	std::map<int, std::wstring> KeySet;
-	
+
 	int CurIndex = 0;
 	Vector2 CurFrame = {};
 	int CountFrame = 0;
@@ -53,4 +57,6 @@ private:
 	int SelectKey = 0;
 
 	SpriteInfo* Info;
+
+	float DelayTime = 0.0f;
 };

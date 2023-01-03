@@ -34,12 +34,17 @@ public:
 		Location = location;
 	}
 
-	void SetLocation(const Vector2 Location)
+	void SetLocation(const Vector2& Location)
 	{
 		this->Location = Location;
 	}
 
-	void SetSize(const Vector2 Size)
+	void AdditionalLocation(const Vector2& Location)
+	{
+		this->Location += Location;
+	}
+
+	void SetSize(const Vector2& Size)
 	{
 		this->Size = Size;
 	}
@@ -99,7 +104,7 @@ class RectCollision : public Collision
 {
 public:
 	RectCollision() = default;
-	RectCollision(const Vector2 Location, const Vector2 Size, const CollisionChannel::Type Channel) : Collision(Location, Size) 
+	RectCollision(const Vector2& Location, const Vector2& Size, const CollisionChannel::Type& Channel) : Collision(Location, Size) 
 	{
 		this->Channel = Channel;
 		CollisionManager::Get()->Add(this, Channel);

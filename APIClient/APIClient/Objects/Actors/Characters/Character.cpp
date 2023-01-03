@@ -15,12 +15,14 @@ Character::Character(Vector2 Location)
 
 Character::~Character()
 {
+	delete Anim;
 }
 
 void Character::Init()
 {
 	//Collision->SetCollisionChannel(CollisionChannel::Channel1);
 	Collision->SetOwner(this);
+	Anim = new Animation(this);
 	//Collision->AddFunction(&Character::OnBegin);
 }
 

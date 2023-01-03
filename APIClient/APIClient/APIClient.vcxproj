@@ -150,6 +150,7 @@
     <ClInclude Include="Animation\Animation.h" />
     <ClInclude Include="Animation\SpriteImage.h" />
     <ClInclude Include="Background\Background.h" />
+    <ClInclude Include="Components\Camera.h" />
     <ClInclude Include="Enums\CharacterState.h" />
     <ClInclude Include="Enums\CollisionChannel.h" />
     <ClInclude Include="Enums\KeyValue.h" />
@@ -171,6 +172,10 @@
     <ClInclude Include="Objects\Actors\Actor.h" />
     <ClInclude Include="Objects\Actors\Block.h" />
     <ClInclude Include="Objects\Actors\Characters\Character.h" />
+    <ClInclude Include="Objects\Actors\Characters\Monster\DogHead.h" />
+    <ClInclude Include="Objects\Actors\Characters\Monster\Durahan.h" />
+    <ClInclude Include="Objects\Actors\Characters\Monster\Goblin.h" />
+    <ClInclude Include="Objects\Actors\Characters\Monster\Monster.h" />
     <ClInclude Include="Objects\Actors\Characters\Player\Player.h" />
     <ClInclude Include="Objects\Actors\Weapon\Weapon.h" />
     <ClInclude Include="Objects\Object.h" />
@@ -188,6 +193,7 @@
     <ClCompile Include="Animation\Animation.cpp" />
     <ClCompile Include="Animation\SpriteImage.cpp" />
     <ClCompile Include="Background\Background.cpp" />
+    <ClCompile Include="Components\Camera.cpp" />
     <ClCompile Include="Framework\Main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -202,6 +208,10 @@
     <ClCompile Include="Objects\Actors\Actor.cpp" />
     <ClCompile Include="Objects\Actors\Block.cpp" />
     <ClCompile Include="Objects\Actors\Characters\Character.cpp" />
+    <ClCompile Include="Objects\Actors\Characters\Monster\DogHead.cpp" />
+    <ClCompile Include="Objects\Actors\Characters\Monster\Durahan.cpp" />
+    <ClCompile Include="Objects\Actors\Characters\Monster\Goblin.cpp" />
+    <ClCompile Include="Objects\Actors\Characters\Monster\Monster.cpp" />
     <ClCompile Include="Objects\Actors\Characters\Player\Player.cpp" />
     <ClCompile Include="Objects\Actors\Weapon\Weapon.cpp" />
     <ClCompile Include="Objects\Object.cpp" />

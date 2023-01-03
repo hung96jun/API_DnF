@@ -7,7 +7,7 @@ class Actor //: public Object
 public:
 	Actor();
 	Actor(Vector2 Location);
-	~Actor();
+	virtual ~Actor();
 
 	virtual void Update();
 
@@ -19,6 +19,9 @@ public:
 
 	const Vector2 GetLocation() const { return Location; }
 	const bool GetIsActive() const { return IsActive; }
+
+	void AdditionalLocationX(const float& Value) { Location.x += Value; }
+	void AdditionalLocationY(const float& Value) { Location.y += Value; }
 
 protected:
 	virtual void OnBegin(RectCollision* Other) = 0;
