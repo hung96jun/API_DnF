@@ -3,12 +3,16 @@
 
 DogHead::DogHead()
 {
+<<<<<<< HEAD
 	Init();
+=======
+>>>>>>> 7a6be36b68f2a221342a8e8667bebfcb8fc2377c
 }
 
 DogHead::~DogHead()
 {
 }
+<<<<<<< HEAD
 
 void DogHead::Update()
 {
@@ -163,3 +167,5 @@ void DogHead::ChangeGroggyEndState()
 	else
 		CurState = GroggyEnd_R;
 }
+=======
+>>>>>>> 7a6be36b68f2a221342a8e8667bebfcb8fc2377c

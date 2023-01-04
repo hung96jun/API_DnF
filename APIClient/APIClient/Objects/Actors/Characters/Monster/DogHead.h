@@ -1,12 +1,17 @@
 #pragma once
 
+<<<<<<< HEAD
 class DogHead : public Character
+=======
+class DogHead
+>>>>>>> 7a6be36b68f2a221342a8e8667bebfcb8fc2377c
 {
 private:
 	const float MOVE_SPEED = 200.0f;
 
 	enum State
 	{
+<<<<<<< HEAD
 		Idle_R,
 		Move_R,
 		Hit_R,
@@ -102,4 +107,32 @@ private:
 //private:
 //	State BeforeState;
 //	State CurState;
+=======
+		Idle,
+		Sting,
+		Sting2,
+		Swing,
+		Swing2,
+
+		SpearStand,
+		TakeDown,
+
+		DownCharge,
+		ThrowCharge,
+
+		Domerta,		// 3 consecutive charge skill
+		Pendeta,		// Jump and doiwn sting
+
+		Canaria,		// 100 stack Holding
+
+		Groggy,
+		Death,
+	};
+public:
+	DogHead();
+	~DogHead();
+
+private:
+
+>>>>>>> 7a6be36b68f2a221342a8e8667bebfcb8fc2377c
 };
