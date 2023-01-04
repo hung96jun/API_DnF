@@ -23,6 +23,8 @@ public:
 	void AdditionalLocationX(const float& Value) { Location.x += Value; }
 	void AdditionalLocationY(const float& Value) { Location.y += Value; }
 
+	void SetFieldTexture(IN BITMAP& Texture) { FieldTexture = &Texture; }
+
 protected:
 	virtual void OnBegin(RectCollision* Other) = 0;
 
@@ -30,6 +32,8 @@ private:
 	virtual void Init();
 
 protected:
+	BITMAP* FieldTexture;
+
 	RectCollision* Collision = nullptr;
 
 	Vector2 Location;

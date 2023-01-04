@@ -37,6 +37,8 @@ protected:
 	float Speed = 200.0f;
 	Animation* Anim = nullptr;
 
+	Direction CurDir;
+
 	int CurState;
 	int BeforeState;
 };

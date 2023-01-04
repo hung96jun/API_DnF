@@ -2,11 +2,11 @@
 
 #include "Manager/TimerManager.h"
 
-struct TimerHandle
+struct TimerFunc
 {
 public:
-	TimerHandle(WSTR Key, std::function<void()> Func, float Time, bool Loop = false)
-		: Key(Key), Function(Func), EndTime(Time), bLoop(Loop) {}
+	TimerFunc(WSTR Key, std::function<void()> Func, float Time, bool Loop = false, bool Active = true)
+		: Key(Key), Function(Func), EndTime(Time), bLoop(Loop), bActive(Active) {}
 
 	void SetStartTime(const float& Start) { StartTime = Start; }
 
@@ -20,18 +20,33 @@ public:
 			StartTime = ELAPSED_TIME;
 
 		CurTime += DELTA_TIME;
-
-		if (Function != nullptr && (CurTime - StartTime) > EndTime)
+		
+		if (bLoop == true)
 		{
-			Function();
-			StartTime = 0.0f;
+			if ((CurTime - StartTime) < EndTime)
+				Function();
 
-			if (bLoop == false)
-				bLoop = false;
+			else
+				bActive = false;
+		}
+
+		else if (bLoop == false)
+		{
+			if (Function != nullptr && (CurTime - StartTime) > EndTime)
+			{
+				Function();
+				bActive = false;
+			}
 		}
 	}
 
 	const bool IsLoop() const { return bLoop; }
+	const bool IsActive() const { return bActive; }
+	void ResetFunction()
+	{
+		StartTime = 0.0f;
+		bActive = true;
+	}
 
 private:
 	WSTR Key = L"";
@@ -40,4 +55,5 @@ private:
 	float EndTime = 0.0f;
 	float CurTime = 0.0f;
 	bool bLoop = false;
+	bool bActive = false;
 };

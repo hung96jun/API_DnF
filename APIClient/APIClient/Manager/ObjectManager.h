@@ -14,8 +14,8 @@ public:
 	void AfterRender(HDC hdc);
 
 	void Add(Actor* Object);
+	void SetFieldTexture(IN BITMAP& Texture);
 
 private:
 	std::vector<Actor*> Objects;
-
 };

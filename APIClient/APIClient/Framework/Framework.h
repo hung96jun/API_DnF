@@ -65,6 +65,7 @@
 
 // Math
 #include "Math/Vector2.h"
+#include "Math/GameMath.h"
 
 // Structs
 #include "Structs/TextureInfo.h"
@@ -94,6 +95,7 @@
 #include "Objects/Actors/Actor.h"
 #include "Objects/Actors/Characters/Character.h"
 #include "Objects/Actors/Characters/Monster/Monster.h"
+#include "Objects/Actors/Weapon/EnergyBall.h"
 
 //
 #include "Background/Background.h"

@@ -21,6 +21,8 @@ public:
 	void SetRenderTarget(Player* Target) { this->Target = Target; }
 	void SetBackgroundRect(RectCollision* RenderRect);
 
+	const Vector2& GetLocation() const { return Location; }
+
 private:
 	void SetTargetLocation();
 	void SetRenderRectLocation();

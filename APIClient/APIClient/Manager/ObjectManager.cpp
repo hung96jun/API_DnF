@@ -25,6 +25,7 @@ void ObjectManager::Render(HDC hdc)
 	{
 		if (object->GetIsActive() == false) continue;
 		object->Render(hdc);
+		
 	}
 }
 
@@ -40,4 +41,12 @@ void ObjectManager::AfterRender(HDC hdc)
 void ObjectManager::Add(Actor* Object)
 {
 	Objects.push_back(Object);
+}
+
+void ObjectManager::SetFieldTexture(IN BITMAP& Texture)
+{
+	for (Actor* object : Objects)
+	{
+		object->SetFieldTexture(Texture);
+	}
 }

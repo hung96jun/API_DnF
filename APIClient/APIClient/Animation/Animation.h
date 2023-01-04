@@ -27,8 +27,11 @@ public:
 
 	void Update();
 	void Render(HDC hdc);
+	void Render(HDC hdc, int Alpha);
 
 	void ResetAnimation();
+
+	HDC GetMemDC() { return hMemDC; }
 
 private:
 	void ResetFrame();

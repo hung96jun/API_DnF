@@ -12,7 +12,7 @@ TimerManager::TimerManager()
 
 TimerManager::~TimerManager()
 {
-	for (pair<WSTR, TimerHandle*> pair : Functions)
+	for (pair<std::wstring, TimerFunc*> pair : Functions)
 	{
 		delete pair.second;
 		pair.second = nullptr;
@@ -45,13 +45,7 @@ void TimerManager::Update()
 		OneSecondCount = 0.0f;
 	}
 
-	// 테스트
-	for (std::pair<WSTR, bool> funcPair : CallFunctions)
-	{
-		if (funcPair.second == false) continue;
-
-		Functions[funcPair.first]->CallFunction();
-	}
+	LoopFunction();
 }
 
 void TimerManager::Render(HDC hdc)
@@ -62,15 +56,27 @@ void TimerManager::Render(HDC hdc)
 	TextOut(hdc, 0, 20, str.c_str(), (int)str.length());
 }
 
-void TimerManager::AddFunction(TimerHandle Func)
+void TimerManager::AddFunction(TimerFunc Func)
 {
-	TimerHandle* function = new TimerHandle(Func);
+	TimerFunc* function = new TimerFunc(Func);
+
 	Functions[function->GetKey()] = function;
 }
 
-void TimerManager::CallFunction(WSTR Func)
+void TimerManager::CallFunction(std::wstring Func)
 {
-	// 테스트
-	if (Functions.count(Func) <= 0) return;
-	CallFunctions[Func] = true;
+	if (Functions.count(Func) == 0) return;
+
+	Functions[Func]->ResetFunction();
+}
+
+void TimerManager::LoopFunction()
+{
+	for (pair<std::wstring, TimerFunc*> function : Functions)
+	{
+		if (function.second->IsActive() == true)
+		{
+			function.second->CallFunction();
+		}
+	}
 }

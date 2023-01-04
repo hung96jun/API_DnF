@@ -322,7 +322,7 @@ void Player::AnimationSetting()
 	// Left Motion
 	{
 		str = L"Resource/Player/Knight/Movement_L.bmp";
-		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(-15, -20), 0.1f);
+		sprite = SpriteInfo(str, Vector2(1818, 1458), Vector2(6, 6), 35, Vector2(-15, -20));
 		Anim->Add(L"Movement_L", sprite);
 
 		str = L"Resource/Player/Knight/NormalAttack_L.bmp";

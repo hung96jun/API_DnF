@@ -88,6 +88,11 @@ private:
 	//////////////////////////////////////////////////////////////////////////////
 
 	void SaveAttacking();
+
+	void TestFunction()
+	{
+		int a = 10;
+	}
 	
 private:
 	Weapon* Sword = nullptr;
@@ -105,7 +110,7 @@ private:
 
 	CharacterState CurState = CharacterState::Idle_R;
 	CharacterState BeforeState = CharacterState::Idle_R;
-	Direction CurDir = Direction::Right;
+	//Direction CurDir = Direction::Right;
 
 	bool IsChangeState = true;
 	bool IsMove = true;
