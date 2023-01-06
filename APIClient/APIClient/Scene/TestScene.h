@@ -18,6 +18,10 @@ private:
 	Background* BackImage = nullptr;
 	DogHead* TestDog = nullptr;
 	Player* player = nullptr;
+<<<<<<< HEAD
+=======
+	EnergyBall* TestBall = nullptr;
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 	
 	//RectCollision* test = nullptr;
 	//	Player* test = nullptr;

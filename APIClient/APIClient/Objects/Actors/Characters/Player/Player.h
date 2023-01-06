@@ -102,6 +102,14 @@ private:
 
 	void SaveAttacking();
 
+<<<<<<< HEAD
+=======
+	void TestFunction()
+	{
+		int a = 10;
+	}
+	
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 private:
 	Weapon* Sword = nullptr;
 	Keyboard* Key = nullptr;

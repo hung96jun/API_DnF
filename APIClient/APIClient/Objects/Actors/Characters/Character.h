@@ -42,9 +42,12 @@ protected:
 	float Speed = 200.0f;
 	Animation* Anim = nullptr;
 
+<<<<<<< HEAD
 	CharacterStatus MaxStat;
 	CharacterStatus CurStat;
 
+=======
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 	Direction CurDir;
 
 	int CurState;

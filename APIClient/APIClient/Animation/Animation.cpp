@@ -197,6 +197,7 @@ void Animation::Render(HDC hdc)
 		CurAnim->GetAlpha()
 	);
 
+<<<<<<< HEAD
 	//wstring str;
 	//if (check == true)
 	//{
@@ -208,6 +209,19 @@ void Animation::Render(HDC hdc)
 	//	str = L"Failed";
 	//	TextOut(hdc, WIN_CENTER_Y, 0, str.c_str(), str.length());
 	//}
+=======
+	wstring str;
+	if (check == true)
+	{
+		str = L"Success";
+		TextOut(hdc, WIN_CENTER_X, 0, str.c_str(), str.length());
+	}
+	else
+	{
+		str = L"Failed";
+		TextOut(hdc, WIN_CENTER_Y, 0, str.c_str(), str.length());
+	}
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 }
 
 void Animation::Render(HDC hdc, int Alpha)

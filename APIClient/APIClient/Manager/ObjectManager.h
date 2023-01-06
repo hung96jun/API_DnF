@@ -18,5 +18,8 @@ public:
 
 private:
 	std::vector<Actor*> Objects;
+<<<<<<< HEAD
 	std::vector<Actor*> RenderObjects;
+=======
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 };

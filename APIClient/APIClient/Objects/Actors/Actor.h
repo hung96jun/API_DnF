@@ -24,7 +24,10 @@ public:
 	void AdditionalLocationY(const float& Value) { Location.y += Value; }
 
 	void SetFieldTexture(IN BITMAP& Texture) { FieldTexture = &Texture; }
+<<<<<<< HEAD
 	const RectCollision* GetCollision() const { return Collision; }
+=======
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 
 protected:
 	virtual void OnBegin(RectCollision* Other) {};

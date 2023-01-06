@@ -1,8 +1,16 @@
 #pragma once
 
+<<<<<<< HEAD
 class DogHeadAIController;
 
 class DogHead : public Character
+=======
+<<<<<<< HEAD
+class DogHead : public Character
+=======
+class DogHead
+>>>>>>> 7a6be36b68f2a221342a8e8667bebfcb8fc2377c
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 {
 private:
 	const float MOVE_SPEED = 200.0f;
@@ -16,10 +24,115 @@ private:
 
 	enum State
 	{
+<<<<<<< HEAD
 		Idle_R = 0,
 		Move_R = 1,
 		Hit_R = 2,
 		Dash_R = 3,
+=======
+<<<<<<< HEAD
+		Idle_R,
+		Move_R,
+		Hit_R,
+		Dash_R,
+
+		//_RSpearPose,
+		Spear_R,
+		Glave_R,
+		Hook_R,
+
+		SpearStand_R,
+		
+		DownCharge_R,
+		ThrowCharge_R,
+		ThrowEnd_R,
+
+		Domerta_R,		// 3 consecutive charge skill
+		Pendeta_R,		// Jump and doiwn sting
+
+		Canaria_R,		// 100 stack Holding
+
+		Groggy_R,
+		GroggyEnd_R,
+		Death_R,
+
+		Idle_L,
+		Move_L,
+		Hit_L,
+		Dash_L,
+
+		//_LSpearPose,
+		Spear_L,
+		Glave_L,
+		Hook_L,
+
+		SpearStand_L,
+
+		DownCharge_L,
+		ThrowCharge_L,
+		ThrowEnd_L,
+
+		Domerta_L,		// 3 consecutive charge skill
+		Pendeta_L,		// Jump and doiwn sting
+
+		Canaria_L,		// 100 stack Holding
+
+		Groggy_L,
+		GroggyEnd_L,
+		Death_L,
+	};
+public:
+	DogHead();
+	virtual ~DogHead() override;
+
+	virtual void Update();
+	virtual void Render(HDC hdc);
+
+protected:
+	virtual void OnBegin(RectCollision* Other) override;
+
+private:
+	//virtual void AnimationSetting() override;
+	//virtual void AnimStateSetting() override;
+
+	virtual void Init() override;
+
+	virtual void AnimationSetting() override;
+	virtual void AnimStateSetting() override;
+	virtual void AnimationPlay() override;
+	void TimerFunctionSetting();
+
+	///////////////////////////////////////////////////////////////////////////
+	// Animation Bind Function
+	///////////////////////////////////////////////////////////////////////////
+	void ChangeIdleState();
+	void ChangeGroggyEndState();
+	///////////////////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////////////////////////////
+	// Timer Bind Function
+	///////////////////////////////////////////////////////////////////////////
+	void OnGroggy();
+	void OnThrowCharging();
+	///////////////////////////////////////////////////////////////////////////
+
+	void OnThrowBall();
+
+private:
+	Vector2 OriginLocation = {};
+
+
+	std::function<void()> temp;
+//private:
+//	State BeforeState;
+//	State CurState;
+=======
+		Idle,
+		Sting,
+		Sting2,
+		Swing,
+		Swing2,
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 
 		Spear_R = 4,
 		Glave_R = 5,
@@ -85,6 +198,7 @@ private:
 	//virtual void AnimationSetting() override;
 	//virtual void AnimStateSetting() override;
 
+<<<<<<< HEAD
 	virtual void Init() override;
 
 	///////////////////////////////////////////////////////////////////////////
@@ -151,4 +265,7 @@ private:
 
 	// Character을(를) 통해 상속됨
 	
+=======
+>>>>>>> 7a6be36b68f2a221342a8e8667bebfcb8fc2377c
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 };

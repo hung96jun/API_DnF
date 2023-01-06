@@ -46,6 +46,7 @@ void TimerManager::Update()
 	}
 
 	LoopFunction();
+<<<<<<< HEAD
 }
 
 void TimerManager::AddFunction(TimerFunc Func)
@@ -71,6 +72,8 @@ void TimerManager::LoopFunction()
 			function.second->CallFunction();
 		}
 	}
+=======
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 }
 
 void TimerManager::Render(HDC hdc)
@@ -80,3 +83,31 @@ void TimerManager::Render(HDC hdc)
 	str = L"Delta : " + to_wstring(ElapsedTime);
 	TextOut(hdc, 0, 20, str.c_str(), (int)str.length());
 }
+<<<<<<< HEAD
+=======
+
+void TimerManager::AddFunction(TimerFunc Func)
+{
+	TimerFunc* function = new TimerFunc(Func);
+
+	Functions[function->GetKey()] = function;
+}
+
+void TimerManager::CallFunction(std::wstring Func)
+{
+	if (Functions.count(Func) == 0) return;
+
+	Functions[Func]->ResetFunction();
+}
+
+void TimerManager::LoopFunction()
+{
+	for (pair<std::wstring, TimerFunc*> function : Functions)
+	{
+		if (function.second->IsActive() == true)
+		{
+			function.second->CallFunction();
+		}
+	}
+}
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c

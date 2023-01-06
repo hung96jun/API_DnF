@@ -32,6 +32,7 @@ void ObjectManager::Render(HDC hdc)
 	{
 		if (object->GetIsActive() == false) continue;
 		object->Render(hdc);
+		
 	}
 }
 

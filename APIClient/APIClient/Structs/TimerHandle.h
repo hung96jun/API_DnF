@@ -5,7 +5,10 @@
 struct TimerFunc
 {
 public:
+<<<<<<< HEAD
 	TimerFunc() = default;
+=======
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 	TimerFunc(WSTR Key, std::function<void()> Func, float Time, bool Loop = false, bool Active = true)
 		: Key(Key), Function(Func), EndTime(Time), bLoop(Loop), bActive(Active) {}
 
@@ -46,7 +49,10 @@ public:
 	void ResetFunction()
 	{
 		StartTime = 0.0f;
+<<<<<<< HEAD
 		CurTime = 0.0f;
+=======
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 		bActive = true;
 	}
 

@@ -8,7 +8,11 @@
 
 TestScene::TestScene()
 {
+<<<<<<< HEAD
 	player = new Player(Vector2(WIN_CENTER_X - 300, WIN_CENTER_Y));
+=======
+	player = new Player(Vector2(WIN_CENTER_X, WIN_CENTER_Y));
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 	TestDog = new DogHead();
 	//test = new RectCollision(Vector2(WIN_CENTER_X, WIN_CENTER_Y), Vector2(50.0f, 50.0f), CollisionChannel::Channel2);
 	//test->SetHidden(false);
@@ -41,7 +45,12 @@ TestScene::TestScene()
 	Test->SetSize(Vector2(TestMap.bmWidth, TestMap.bmHeight - 200));
 	Test->SetLocation(Vector2(TestMap.bmWidth * 0.5f, TestMap.bmHeight * 0.5f));
 
+<<<<<<< HEAD
 	TestDog->SetTarget(player);
+=======
+	TestBall = new EnergyBall();
+	
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 
 	//ObjectManager::Get()->SetFieldTexture(BackImage->GetTexture());
 }
@@ -52,6 +61,7 @@ TestScene::~TestScene()
 	delete BackImage;
 	delete player;
 	delete Test;
+	delete TestBall;
 }
 
 void TestScene::Update()
@@ -59,7 +69,11 @@ void TestScene::Update()
 	//player->Update();
 
 	Camera::Get()->Update();
+<<<<<<< HEAD
 	//TestBall->Update();
+=======
+	TestBall->Update();
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 	ObjectManager::Get()->Update();
 	//CollisionManager::Get()->Update();
 }
@@ -80,7 +94,11 @@ void TestScene::Render(HDC hdc)
 	//	SRCCOPY
 	//);
 	BackImage->Render(hdc);
+<<<<<<< HEAD
 	//TestBall->Render(hdc);
+=======
+	TestBall->Render(hdc);
+>>>>>>> c8e04d29f87ba0ecdf7f31d030b30992ada9642c
 	ObjectManager::Get()->Render(hdc);
 	
 	//bool check = BitBlt(hdc,
