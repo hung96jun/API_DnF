@@ -7,6 +7,13 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
+	for (Actor* object : Objects)
+	{
+		if (object != nullptr)
+			delete object;
+
+		object = nullptr;
+	}
 }
 
 void ObjectManager::Update()
@@ -40,4 +47,12 @@ void ObjectManager::AfterRender(HDC hdc)
 void ObjectManager::Add(Actor* Object)
 {
 	Objects.push_back(Object);
+}
+
+void ObjectManager::SetFieldTexture(IN BITMAP& Texture)
+{
+	for (Actor* object : Objects)
+	{
+		object->SetFieldTexture(Texture);
+	}
 }

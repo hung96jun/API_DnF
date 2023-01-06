@@ -30,6 +30,7 @@ void Character::Update()
 {
 	Super::Update();
 
+
 }
 
 void Character::Render(HDC hdc)

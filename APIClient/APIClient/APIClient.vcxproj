@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AI\AIController.h" />
+    <ClInclude Include="AI\DogHeadAIController.h" />
     <ClInclude Include="Animation\Animation.h" />
     <ClInclude Include="Animation\SpriteImage.h" />
     <ClInclude Include="Background\Background.h" />
@@ -160,12 +162,15 @@
     <ClInclude Include="Framework\CharacterFramework.h" />
     <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Manager\CollisionManager.h" />
+    <ClInclude Include="Manager\DamageHandle.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\KeyboardManager.h" />
     <ClInclude Include="Manager\ObjectManager.h" />
+    <ClInclude Include="Manager\PoolingSystem.h" />
     <ClInclude Include="Manager\RenderManager.h" />
     <ClInclude Include="Manager\Singleton.h" />
     <ClInclude Include="Manager\TimerManager.h" />
+    <ClInclude Include="Math\GameMath.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Framework\Resource.h" />
     <ClInclude Include="Framework\targetver.h" />
@@ -177,11 +182,14 @@
     <ClInclude Include="Objects\Actors\Characters\Monster\Goblin.h" />
     <ClInclude Include="Objects\Actors\Characters\Monster\Monster.h" />
     <ClInclude Include="Objects\Actors\Characters\Player\Player.h" />
+    <ClInclude Include="Objects\Actors\Weapon\EnergyBall.h" />
     <ClInclude Include="Objects\Actors\Weapon\Weapon.h" />
     <ClInclude Include="Objects\Object.h" />
+    <ClInclude Include="Objects\Pooling\EnergyBallPooling.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Objects\Collision.h" />
     <ClInclude Include="Scene\TestScene.h" />
+    <ClInclude Include="Structs\CharacterStatus.h" />
     <ClInclude Include="Structs\TextureInfo.h" />
     <ClInclude Include="Structs\TimerHandle.h" />
     <ClInclude Include="Utilities\Implement.h" />
@@ -190,6 +198,8 @@
     <ClInclude Include="Utilities\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AI\AIController.cpp" />
+    <ClCompile Include="AI\DogHeadAIController.cpp" />
     <ClCompile Include="Animation\Animation.cpp" />
     <ClCompile Include="Animation\SpriteImage.cpp" />
     <ClCompile Include="Background\Background.cpp" />
@@ -200,11 +210,14 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Framework/Framework.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Manager\CollisionManager.cpp" />
+    <ClCompile Include="Manager\DamageHandle.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\KeyboardManager.cpp" />
     <ClCompile Include="Manager\ObjectManager.cpp" />
+    <ClCompile Include="Manager\PoolingSystem.cpp" />
     <ClCompile Include="Manager\RenderManager.cpp" />
     <ClCompile Include="Manager\TimerManager.cpp" />
+    <ClCompile Include="Math\GameMath.cpp" />
     <ClCompile Include="Objects\Actors\Actor.cpp" />
     <ClCompile Include="Objects\Actors\Block.cpp" />
     <ClCompile Include="Objects\Actors\Characters\Character.cpp" />
@@ -213,10 +226,13 @@
     <ClCompile Include="Objects\Actors\Characters\Monster\Goblin.cpp" />
     <ClCompile Include="Objects\Actors\Characters\Monster\Monster.cpp" />
     <ClCompile Include="Objects\Actors\Characters\Player\Player.cpp" />
+    <ClCompile Include="Objects\Actors\Weapon\EnergyBall.cpp" />
     <ClCompile Include="Objects\Actors\Weapon\Weapon.cpp" />
     <ClCompile Include="Objects\Object.cpp" />
     <ClCompile Include="Objects\Collision.cpp" />
+    <ClCompile Include="Objects\Pooling\EnergyBallPooling.cpp" />
     <ClCompile Include="Scene\TestScene.cpp" />
+    <ClCompile Include="Structs\CharacterStatus.cpp" />
     <ClCompile Include="Structs\TextureInfo.cpp" />
     <ClCompile Include="Structs\SpriteInfo.cpp" />
     <ClCompile Include="Utilities\Keyboard.cpp" />

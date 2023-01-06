@@ -1,6 +1,6 @@
 #pragma once
 
-struct TimerHandle;
+struct TimerFunc;
 
 class TimerManager : public Singleton<TimerManager>
 {
@@ -25,9 +25,12 @@ public:
 		return ElapsedTime > EPSILON ? EPSILON : ElapsedTime * DeltaScale;
 	}
 
-	void AddFunction(TimerHandle Func);
-	void CallFunction(WSTR Func);
+	void AddFunction(TimerFunc Func);
+	void CallFunction(std::wstring Func);
 
+private:
+	void LoopFunction();
+	
 private:
 	float TimeScale = 0.0f;
 	float ElapsedTime = 0.0f;
@@ -42,6 +45,7 @@ private:
 	int FrameCount = 0;
 	int LockFPS = 0;
 
-	std::map<WSTR, TimerHandle*> Functions;
-	std::map<WSTR, bool> CallFunctions;
+	//std::map<std::wstring, TimerFunc*> TimerFunctions;
+	//std::map<std::wstring, TimerFunc*> LoopFunctions;
+	std::map<std::wstring, TimerFunc*> Functions;
 };

@@ -3,11 +3,13 @@
 #include "TestScene.h"
 
 #include "Objects/Actors/Characters/Player/Player.h"
+#include "Objects/Actors/Characters/Monster/DogHead.h"
 #include "Objects/Actors/Block.h"
 
 TestScene::TestScene()
 {
-	player = new Player(Vector2(WIN_CENTER_X, WIN_CENTER_Y));
+	player = new Player(Vector2(WIN_CENTER_X - 300, WIN_CENTER_Y));
+	TestDog = new DogHead();
 	//test = new RectCollision(Vector2(WIN_CENTER_X, WIN_CENTER_Y), Vector2(50.0f, 50.0f), CollisionChannel::Channel2);
 	//test->SetHidden(false);
 
@@ -27,7 +29,8 @@ TestScene::TestScene()
 	//Camera::Get()->SetBackgroundRect(&BackRect);
 	//Camera::Get()->SetTexture(TestMap);
 	BackImage = new Background(L"Resource/Background/DungeonBackground.bmp", Vector2(1568, 720));
-	player->SetField(BackImage->GetTexture());
+	//player->SetField();
+	
 
 	Camera::Get()->SetRenderTarget(player);
 	
@@ -37,10 +40,15 @@ TestScene::TestScene()
 	Test = new RectCollision();
 	Test->SetSize(Vector2(TestMap.bmWidth, TestMap.bmHeight - 200));
 	Test->SetLocation(Vector2(TestMap.bmWidth * 0.5f, TestMap.bmHeight * 0.5f));
+
+	TestDog->SetTarget(player);
+
+	//ObjectManager::Get()->SetFieldTexture(BackImage->GetTexture());
 }
 
 TestScene::~TestScene()
 {
+	delete TestDog;
 	delete BackImage;
 	delete player;
 	delete Test;
@@ -51,6 +59,7 @@ void TestScene::Update()
 	//player->Update();
 
 	Camera::Get()->Update();
+	//TestBall->Update();
 	ObjectManager::Get()->Update();
 	//CollisionManager::Get()->Update();
 }
@@ -71,8 +80,9 @@ void TestScene::Render(HDC hdc)
 	//	SRCCOPY
 	//);
 	BackImage->Render(hdc);
+	//TestBall->Render(hdc);
 	ObjectManager::Get()->Render(hdc);
-
+	
 	//bool check = BitBlt(hdc,
 	//	WIN_CENTER_X, WIN_CENTER_Y,
 	//	303, 243,
@@ -95,4 +105,5 @@ void TestScene::Render(HDC hdc)
 
 void TestScene::AfterRender(HDC hdc)
 {
+	
 }

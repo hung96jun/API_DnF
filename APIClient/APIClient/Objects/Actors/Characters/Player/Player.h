@@ -49,9 +49,15 @@ public:
 	const bool IsJump() { return bJump; }
 	void SetField(BITMAP Field) { this->Field = Field; }
 
+	//void TestFunction();
+	//void LaunchCharacter(float DirX, float Height);
+
+	virtual void OnDeath() override;
+
 protected:
 	virtual void OnBegin(RectCollision* Other) override;
 	void GetGravity();
+	//void GetLaunchGravity();
 	
 private:
 	void InputKey();
@@ -63,12 +69,12 @@ private:
 	virtual void AnimStateSetting() override;
 
 	void KeyboardSetting();
-	void CollisionSetting();
+	virtual void CollisionSetting() override;
 
 	virtual void AnimationPlay() override;
 
 	//////////////////////////////////////////////////////////////////////////////
-	/// Bind key function
+	// Bind key function
 	//////////////////////////////////////////////////////////////////////////////
 	void MoveLeft();
 	void MoveRight();
@@ -87,8 +93,15 @@ private:
 	void EndAttacking();
 	//////////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////////
+	// Animation Bind Function
+	//////////////////////////////////////////////////////////////////////////////
+	void OnAttackCollision();
+	void EndAttackCollision();
+	//////////////////////////////////////////////////////////////////////////////
+
 	void SaveAttacking();
-	
+
 private:
 	Weapon* Sword = nullptr;
 	Keyboard* Key = nullptr;
@@ -105,7 +118,7 @@ private:
 
 	CharacterState CurState = CharacterState::Idle_R;
 	CharacterState BeforeState = CharacterState::Idle_R;
-	Direction CurDir = Direction::Right;
+	//Direction CurDir = Direction::Right;
 
 	bool IsChangeState = true;
 	bool IsMove = true;
@@ -113,4 +126,6 @@ private:
 	bool IsMoveY = true;
 	bool bSaveCombo = false;
 	bool IsAttack = false;
+
+	//bool bLaunch = false;
 };

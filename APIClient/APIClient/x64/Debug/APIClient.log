@@ -1,49 +1,5 @@
-﻿  Main.cpp
-  Animation.cpp
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(194,15): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(194,7): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(193,10): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(192,10): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(190,15): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(190,7): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(189,23): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(189,11): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(202,58): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(202,16): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(207,58): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Animation\Animation.cpp(207,16): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  SpriteImage.cpp
-  Background.cpp
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Background\Background.cpp(8,79): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Background\Background.cpp(8,71): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Background\Background.cpp(33,32): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Background\Background.cpp(33,16): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Camera.cpp
-  CollisionManager.cpp
-  GameManager.cpp
-  KeyboardManager.cpp
-  ObjectManager.cpp
-  RenderManager.cpp
-  TimerManager.cpp
-  Actor.cpp
-  Block.cpp
-  Character.cpp
-  Durahan.cpp
-  Goblin.cpp
-  Monster.cpp
-  Player.cpp
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Objects\Actors\Characters\Player\Player.cpp(325,87): warning C4244: '인수': 'float'에서 'COLORREF'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Weapon.cpp
-  Object.cpp
-  Collision.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  TestScene.cpp
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Scene\TestScene.cpp(38,58): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Github\API_DnF\API_DnF\APIClient\APIClient\Scene\TestScene.cpp(38,31): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  TextureInfo.cpp
-  SpriteInfo.cpp
-  Keyboard.cpp
-  Texture.cpp
-  코드를 생성하고 있습니다...
+﻿  DogHead.cpp
+D:\Github\API_DnF\API_DnF\APIClient\APIClient\Objects\Actors\Characters\Monster\DogHead.h(133,15): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Github\API_DnF\API_DnF\APIClient\APIClient\Objects\Actors\Characters\Monster\DogHead.cpp(91,58): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Github\API_DnF\API_DnF\APIClient\APIClient\Objects\Actors\Characters\Monster\DogHead.cpp(394,17): warning C4552: '*': 식의 결과가 사용되지 않습니다.
   APIClient.vcxproj -> D:\Github\API_DnF\API_DnF\APIClient\x64\Debug\APIClient.exe

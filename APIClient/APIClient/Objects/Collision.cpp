@@ -13,6 +13,13 @@ RectCollision::RectCollision(const float Left, const float Top, const float Righ
 	CollisionManager::Get()->Add(this, CollisionChannel::Channel0);
 }
 
+void RectCollision::SetActive(const bool Value)
+{
+	HitActors.clear();
+
+	Super::SetActive(Value);
+}
+
 const bool RectCollision::OnCollisionOverlap(Vector2& Other)
 {
 	if (bActive == false) return false;
@@ -38,6 +45,22 @@ const bool RectCollision::OnCollisionOverlap(RectCollision* Other)
 	{
 		if (Other->Top() < Bottom() && Other->Bottom() > Top())
 		{
+			if (HitActors.size() == 0)
+			{
+				HitActors.push_back(Other);
+			}
+
+			else
+			{
+				for (RectCollision* actor : HitActors)
+				{
+					if (Other == actor)
+						return false;
+				}
+
+				HitActors.push_back(Other);
+			}
+
 			if(Functor != nullptr)
 				Functor(Other);
 
@@ -53,6 +76,11 @@ const bool RectCollision::OnCollisionOverlap(CircleCollision* Other)
 	if (bActive == false) return false;
 
 	return false;
+}
+
+const void RectCollision::EndCollisionOverlap()
+{
+	HitActors.clear();
 }
 
 void RectCollision::Render(HDC hdc)
@@ -86,7 +114,8 @@ void CircleCollision::Render(HDC hdc)
 {
 }
 
-void Collision::SetCollisionChannel(const CollisionChannel::Type Type)
+void CollisionBase::SetCollisionChannel(const CollisionChannel::Type Type)
 {
+	CollisionManager::Get()->ChangeCollisionChannel((RectCollision*)this, Type);
 	Channel = Type;
 }

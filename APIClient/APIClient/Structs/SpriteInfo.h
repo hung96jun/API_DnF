@@ -56,6 +56,7 @@ public:
 	const Vector2 GetOffset() const { return Offset; }
 	const Vector2 GetOriginSize() const { return OriginSize; }
 	const CutInfo GetCutInfo(const int& Key) { return CutInfos[Key]; }
+	const COLORREF GetAlpha() { return Alpha; }
 	void CallFrameFunction(const int& Key, const int& Frame)
 	{
 		if (CutInfos[Key].FrameFunction.count(Frame) == 0) return;
@@ -118,7 +119,7 @@ public:
 private:
 	std::wstring Path = L"";
 
-	HBITMAP hTexture;
+	HBITMAP hTexture = nullptr;
 	Vector2 Location = {};
 	Vector2 CutSize = {};
 	Vector2 Offset = {};

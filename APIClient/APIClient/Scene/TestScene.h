@@ -1,6 +1,7 @@
 #pragma once
 
 class Player;
+class DogHead;
 class Block;
 
 class TestScene : public Scene
@@ -15,7 +16,9 @@ public:
 
 private:
 	Background* BackImage = nullptr;
+	DogHead* TestDog = nullptr;
 	Player* player = nullptr;
+	
 	//RectCollision* test = nullptr;
 	//	Player* test = nullptr;
 

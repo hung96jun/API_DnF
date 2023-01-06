@@ -109,6 +109,8 @@ void CollisionManager::CollisionCheck(std::vector<RectCollision*> Collisions1, s
 {
 	for (RectCollision* attacker : Collisions1)
 	{
+		if (attacker->IsActive() == false) continue;
+
 		for (RectCollision* victim : Collisions2)
 		{
 			attacker->OnCollisionOverlap(victim);

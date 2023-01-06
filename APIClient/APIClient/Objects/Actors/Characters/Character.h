@@ -23,6 +23,11 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
+	const CharacterStatus GetMaxStatus() const { return MaxStat; }
+	CharacterStatus& GetCurStatus() { return CurStat; }
+
+	virtual void OnDeath() = 0;
+
 protected:
 	virtual void OnBegin(RectCollision* Other) override;
 
@@ -36,6 +41,11 @@ private:
 protected:
 	float Speed = 200.0f;
 	Animation* Anim = nullptr;
+
+	CharacterStatus MaxStat;
+	CharacterStatus CurStat;
+
+	Direction CurDir;
 
 	int CurState;
 	int BeforeState;

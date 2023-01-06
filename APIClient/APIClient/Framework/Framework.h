@@ -56,6 +56,7 @@
 #include <iterator>
 #include <fstream>
 #include <functional>
+#include <queue>
 
 // Enums
 #include "Enums/Resolution.h"
@@ -65,10 +66,12 @@
 
 // Math
 #include "Math/Vector2.h"
+#include "Math/GameMath.h"
 
 // Structs
 #include "Structs/TextureInfo.h"
 #include "Structs/SpriteInfo.h"
+#include "Structs/CharacterStatus.h"
 //#include "Structs/DebugInfo.h"
 
 // Manager
@@ -78,8 +81,13 @@
 #include "Manager/KeyboardManager.h"
 #include "Manager/CollisionManager.h"
 #include "Manager/ObjectManager.h"
+#include "Manager/PoolingSystem.h"
+#include "Manager/DamageHandle.h"
 
 #include "Components/Camera.h"
+
+// Pooling
+#include "Objects/Pooling/EnergyBallPooling.h"
 
 // Utilities
 #include "Utilities/Keyboard.h"
@@ -94,6 +102,10 @@
 #include "Objects/Actors/Actor.h"
 #include "Objects/Actors/Characters/Character.h"
 #include "Objects/Actors/Characters/Monster/Monster.h"
+#include "Objects/Actors/Weapon/Weapon.h"
+#include "Objects/Actors/Weapon/EnergyBall.h"
+
+#include "AI/AIController.h"
 
 //
 #include "Background/Background.h"

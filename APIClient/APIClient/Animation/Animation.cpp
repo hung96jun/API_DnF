@@ -7,6 +7,7 @@ Animation::Animation(Actor* Owner)
 {
 	HDC hdc = GetDC(hWnd);
 	hMemDC = CreateCompatibleDC(hdc);
+	hAlphaMemDC = CreateCompatibleDC(hdc);
 	ReleaseDC(hWnd, hdc);
 }
 
@@ -14,6 +15,7 @@ Animation::~Animation()
 {
 	Destroy();
 
+	DeleteObject(hAlphaMemDC);
 	DeleteObject(hMemDC);
 	DeleteObject(hBitMap);
 
@@ -192,7 +194,76 @@ void Animation::Render(HDC hdc)
 		size.x * (CurFrame.x),
 		size.y * (CurFrame.y),
 		size.x, size.y,
-		MAGENTA
+		CurAnim->GetAlpha()
+	);
+
+	//wstring str;
+	//if (check == true)
+	//{
+	//	str = L"Success";
+	//	TextOut(hdc, WIN_CENTER_X, 0, str.c_str(), str.length());
+	//}
+	//else
+	//{
+	//	str = L"Failed";
+	//	TextOut(hdc, WIN_CENTER_Y, 0, str.c_str(), str.length());
+	//}
+}
+
+void Animation::Render(HDC hdc, int Alpha)
+{
+	if (bPlay == false) return;
+
+	Vector2 location = CurAnim->GetLocation();
+	Vector2 size = CurAnim->GetCutsize();
+
+	if (hAlphaBitMap == nullptr)
+	{
+		HDC tempHDC = GetDC(hWnd);
+
+		BITMAP bitmap;
+		GetObject(CurAnim->GetTexture(), sizeof(BITMAP), &bitmap);
+		Vector2 imageSize = { (float)bitmap.bmWidth, (float)bitmap.bmHeight };
+		Vector2 cutSize = { imageSize.x / CurAnim->GetMaxIndex().x, imageSize.y / CurAnim->GetMaxIndex().y};
+
+		hAlphaBitMap = CreateCompatibleBitmap(hdc, cutSize.x, cutSize.y);
+		ReleaseDC(hWnd, tempHDC);
+	}
+
+	BLENDFUNCTION blend;
+	blend.SourceConstantAlpha = Alpha;
+
+	SelectObject(hMemDC, CurAnim->GetTexture());
+	SelectObject(hAlphaMemDC, hAlphaBitMap);
+
+	bool check = BitBlt(
+		hAlphaMemDC,
+		0, 0, size.x, size.y,
+		hdc,
+		size.x * (CurFrame.x),
+		size.y * (CurFrame.y),
+		SRCCOPY
+	);
+
+	check = GdiTransparentBlt(
+		hAlphaMemDC,
+		0, 0,
+		size.x, size.y,
+		hMemDC,
+		size.x * (CurFrame.x),
+		size.y * (CurFrame.y),
+		size.x, size.y,
+		CurAnim->GetAlpha()
+	);
+
+	check = GdiAlphaBlend(
+		hdc,
+		0, 0,
+		size.x, size.y,
+		hAlphaMemDC,
+		0, 0,
+		size.x, size.y,
+		blend
 	);
 
 	wstring str;

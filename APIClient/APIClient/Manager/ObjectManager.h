@@ -1,6 +1,6 @@
 #pragma once
 
-class ObjectManager : public Singleton< ObjectManager>
+class ObjectManager : public Singleton<ObjectManager>
 {
 private:
 	friend class Singleton;
@@ -14,8 +14,9 @@ public:
 	void AfterRender(HDC hdc);
 
 	void Add(Actor* Object);
+	void SetFieldTexture(IN BITMAP& Texture);
 
 private:
 	std::vector<Actor*> Objects;
-
+	std::vector<Actor*> RenderObjects;
 };
